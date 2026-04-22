@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion, useInView } from 'motion/react';
+import CollectionSpotlight from '../components/CollectionSpotlight';
+import StartDialogueForm from '../components/StartDialogueForm';
 
 interface HighlightTextProps {
   text: string;
@@ -75,7 +77,7 @@ const Sanctuary = () => {
 
   return (
     <div className="bg-[#221a10] text-theme-text font-['Manrope'] min-h-screen antialiased selection:bg-[#d48311]/30 selection:text-theme-text overflow-x-hidden">
-      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+      <section className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center" 
           data-alt="High-key silk-canopied bed facing floor-to-ceiling windows overlooking a misty forest" 
@@ -89,7 +91,7 @@ const Sanctuary = () => {
             <h2 className="text-xs md:text-sm uppercase tracking-[0.4em] text-white/80 font-medium">Master Suite Collection</h2>
             <span className="w-12 h-[1px] bg-white/60"></span>
           </div>
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-light tracking-tighter leading-none text-white drop-shadow-2xl">The Sanctuary</h1>
+          <h1 className="text-7xl md:text-9xl lg:text-[140px] font-light tracking-tighter leading-none text-white drop-shadow-2xl italic font-serif">The Sanctuary</h1>
           <p className="text-lg md:text-2xl font-light max-w-2xl mt-6 text-white/90 drop-shadow-md italic">A haven of tranquility wrapped in linen and alabaster, designed for the ultimate restorative experience.</p>
           <button className="mt-12 bg-[#d48311]/90 backdrop-blur-md text-white px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-[#d48311] transition-all duration-300 shadow-2xl hover:shadow-[#d48311]/20 hover:-translate-y-1">Explore the Suite</button>
         </div>
@@ -223,6 +225,8 @@ const Sanctuary = () => {
           </div>
         </div>
       </section>
+      <CollectionSpotlight collectionName="Sanctuary" />
+      <StartDialogueForm />
       <style>{`
         html { scroll-behavior: smooth; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }

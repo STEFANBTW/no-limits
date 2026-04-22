@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CollectionSpotlight from '../components/CollectionSpotlight';
+import StartDialogueForm from '../components/StartDialogueForm';
 
 const Dining = () => {
   return (
@@ -7,7 +9,7 @@ const Dining = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
         .font-display { font-family: 'Newsreader', serif; }
-        .section-100vh { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        .section-100vh { min-height: 100dvh; display: flex; flex-direction: column; justify-content: center; }
       `}</style>
 
       {/* HERO SECTION (From Block 2) */}
@@ -21,7 +23,7 @@ const Dining = () => {
         </div>
         <div className="relative z-20 text-center max-w-5xl px-8 flex flex-col items-center">
           <span className="text-primary text-sm font-bold tracking-[0.5em] uppercase mb-6 opacity-0 animate-[fadeIn_1s_ease-out_forwards]">Established 2023</span>
-          <h1 className="text-theme-text text-5xl md:text-8xl font-light italic mb-8 leading-tight font-display">
+          <h1 className="text-theme-text text-6xl md:text-9xl font-light italic mb-8 leading-[0.9] font-display">
             Architectural <br/><span className="font-bold not-italic">Dining Environments</span>
           </h1>
           <p className="text-theme-text-muted text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-light">
@@ -158,6 +160,8 @@ const Dining = () => {
         </div>
       </section>
 
+      <CollectionSpotlight collectionName="Dining" />
+
       {/* ACOUSTIC & SPATIAL FLOW (From Block 2) */}
       <section className="section-100vh bg-theme-panel px-16 py-24 flex flex-col justify-center items-center">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-12 gap-16 items-center">
@@ -193,76 +197,13 @@ const Dining = () => {
               <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&q=60&w=800')" }}></div>
             </div>
             <div className="absolute bottom-10 right-0 w-64 h-48 bg-theme-panel z-20 shadow-2xl border border-primary/20 p-1">
-              <div className="w-full h-full bg-cover bg-center grayscale contrast-125 opacity-70" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&q=60&w=800')" }}></div>
+              <div className="w-full h-full bg-cover bg-center contrast-125 opacity-70" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&q=60&w=800')" }}></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* INQUIRY & GLOBAL PROJECTS (From Block 2) */}
-      <section className="section-100vh bg-theme-panel border-t border-primary/10 grid grid-cols-1 md:grid-cols-2 gap-0 p-0">
-        <div className="bg-theme-surface p-12 md:p-24 flex flex-col justify-center min-h-screen">
-          <h2 className="text-primary text-xs font-bold tracking-[0.4em] uppercase mb-6">Inquiry</h2>
-          <h3 className="text-4xl md:text-4xl font-bold mb-10 leading-tight font-display">Begin Your <br/>Design Journey</h3>
-          <form className="space-y-6 max-w-md">
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-theme-text-subtle font-bold">First Name</label>
-                <input className="w-full bg-transparent border-0 border-b border-primary/30 focus:border-primary focus:ring-0 text-theme-text-muted py-2 placeholder:text-slate-700" placeholder="Julian" type="text"/>
-              </div>
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-theme-text-subtle font-bold">Last Name</label>
-                <input className="w-full bg-transparent border-0 border-b border-primary/30 focus:border-primary focus:ring-0 text-theme-text-muted py-2 placeholder:text-slate-700" placeholder="Bellevue" type="text"/>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-theme-text-subtle font-bold">Email Address</label>
-              <input className="w-full bg-transparent border-0 border-b border-primary/30 focus:border-primary focus:ring-0 text-theme-text-muted py-2 placeholder:text-slate-700" placeholder="atelier@luxury.com" type="email"/>
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-theme-text-subtle font-bold">Project Scale</label>
-              <select className="w-full bg-transparent border-0 border-b border-primary/30 focus:border-primary focus:ring-0 text-theme-text-muted py-2">
-                <option className="bg-theme-panel">Private Residential</option>
-                <option className="bg-theme-panel">Hospitality & Estate</option>
-                <option className="bg-theme-panel">Corporate Archive</option>
-              </select>
-            </div>
-            <button className="mt-8 w-full md:w-auto bg-primary text-theme-text px-12 py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-primary/80 hover:scale-105 transition-all duration-300 shadow-lg shadow-primary/20">
-              Request Consultation
-            </button>
-          </form>
-        </div>
-        <div className="relative bg-theme-panel flex flex-col justify-end items-start overflow-hidden p-12 md:p-24 min-h-screen group">
-          {/* High-fidelity architectural background */}
-          <div className="absolute inset-0 bg-cover bg-center transition-transform duration-[20s] ease-out group-hover:scale-110" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600607688969-a5bfcd64bd28?auto=format&fit=crop&q=80&w=1600')" }}></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-theme-base via-theme-base/80 to-transparent"></div>
-          <div className="absolute inset-0 bg-theme-panel/30 mix-blend-multiply"></div>
-
-          {/* Content */}
-          <div className="relative z-10 w-full max-w-xl">
-            <h4 className="text-primary text-xs font-bold tracking-[0.4em] uppercase mb-8 flex items-center gap-4">
-              <span className="w-8 h-px bg-primary"></span>
-              Private Commissions
-            </h4>
-            
-            <h3 className="text-4xl font-serif italic text-theme-text mb-6">Global Scale. Intimate Precision.</h3>
-            <p className="text-theme-text-subtle text-sm leading-relaxed font-light mb-12">
-              Beyond individual pieces, we collaborate with leading architectural firms and private estates to furnish entire spatial volumes. From a penthouse in Mayfair to a secluded villa in Lake Como, our atelier scales to match your ambition.
-            </p>
-
-            <div className="grid grid-cols-2 gap-8 border-t border-theme-border/50 pt-8">
-              <div>
-                <h5 className="text-theme-text font-bold text-sm mb-2 font-display">London Atelier</h5>
-                <p className="text-theme-text-subtle text-xs font-light leading-relaxed uppercase tracking-widest text-[#54524F]">Mayfair W1K, UK<br/>By Appointment</p>
-              </div>
-              <div>
-                <h5 className="text-theme-text font-bold text-sm mb-2 font-display">New York Lounge</h5>
-                <p className="text-theme-text-subtle text-xs font-light leading-relaxed uppercase tracking-widest text-[#54524F]">TriBeCa, NY<br/>Project Center</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <StartDialogueForm />
     </div>
   );
 };

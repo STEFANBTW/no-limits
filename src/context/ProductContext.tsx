@@ -19,6 +19,8 @@ export interface Product {
   images: string[];
   model3d?: string;
   featured?: boolean;
+  itemType?: 'Piece' | 'Collection';
+  collectionName?: string;
 }
 
 interface ProductContextType {

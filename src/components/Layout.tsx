@@ -29,7 +29,7 @@ const Layout = () => {
       <NavBar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
 
       {/* Main Content Area */}
-      <main className={`relative flex flex-col transition-all duration-300 ${isCollapsed ? 'md:ml-[80px]' : 'md:ml-[240px]'} pt-[80px] md:pt-0 min-h-screen bg-theme-base`}>
+      <main className={`relative flex flex-col transition-all duration-300 ${isCollapsed ? 'md:ml-[80px]' : 'md:ml-[240px]'} min-h-screen bg-theme-base`}>
         <div className="flex-1">
           <AnimatePresence mode="wait" initial={true}>
             <motion.div

@@ -1,4 +1,6 @@
 import React from 'react';
+import CollectionSpotlight from '../components/CollectionSpotlight';
+import StartDialogueForm from '../components/StartDialogueForm';
 
 const Study = () => {
   return (
@@ -6,7 +8,7 @@ const Study = () => {
       <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root">
         {/* Hero Section */}
         <section 
-          className="relative h-screen w-full flex items-center justify-center overflow-hidden" 
+          className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden" 
         >
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
@@ -20,8 +22,8 @@ const Study = () => {
               <h2 className="text-xs md:text-sm uppercase tracking-[0.4em] text-white/80 font-medium">The Executive Collection</h2>
               <span className="w-12 h-[1px] bg-white/40"></span>
             </div>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight text-white drop-shadow-2xl font-['Playfair_Display']">
-              Commanding Presence
+            <h1 className="text-7xl md:text-9xl lg:text-[140px] font-serif italic text-white drop-shadow-2xl leading-none">
+              Commanding <br/> Presence
             </h1>
             <p className="text-lg md:text-2xl font-light max-w-3xl mt-4 text-white/90 drop-shadow-md italic leading-relaxed">
               Where profound decisions are made. A sanctuary of focus, crafted from ancient walnut, burnished brass, and quiet, unyielding design.
@@ -211,16 +213,10 @@ const Study = () => {
             </div>
           </div>
         </section>
-
-        {/* Footer CTA */}
-        <section className="py-32 bg-[#1a1614] border-t border-white/5 text-center px-6">
-            <h2 className="text-4xl md:text-5xl font-light text-white mb-8 font-['Playfair_Display']">Commission Your Study</h2>
-            <p className="text-lg text-theme-text-muted mb-12 max-w-xl mx-auto font-light">Collaborate with our master craftsmen to create an environment that reflects your legacy.</p>
-            <button className="bg-[#d44211] text-white px-12 py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-[#d44211]/90 transition-all duration-300 shadow-2xl hover:shadow-[#d44211]/20 hover:-translate-y-1">
-              Request Consultation
-            </button>
-        </section>
       </div>
+
+      <CollectionSpotlight collectionName="Study" />
+      <StartDialogueForm />
 
       <style>{`
         .serif-font { font-family: 'Playfair Display', serif; }

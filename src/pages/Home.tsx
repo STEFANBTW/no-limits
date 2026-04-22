@@ -2,160 +2,13 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, MotionValue, useMotionValue, useSpring } from 'framer-motion';
 import { useProduct } from '../context/ProductContext';
-import BespokeInquiryModal from '../components/BespokeInquiryModal';
+import HomeFooterCTA from '../components/HomeFooterCTA';
 import { Armchair, Sofa, Lamp, Table2, Bed, Library, Boxes, Coffee, Monitor, DoorOpen, Construction, Bath, Key, Tv, Fan, Heater, Utensils, RockingChair, Warehouse } from 'lucide-react';
-
-const FurnitureIcon = ({ Icon, x, y, rotate, size = 64, mouseX, mouseY, movementIntensity }: { Icon: any, x: number, y: number, rotate: number, size?: number, mouseX: MotionValue<number>, mouseY: MotionValue<number>, movementIntensity: MotionValue<number>, key?: React.Key }) => {
-  const iconRef = useRef<HTMLDivElement>(null);
-  
-  // Spring for liquid flow feeling
-  const proximity = useSpring(0, { stiffness: 60, damping: 25 });
-  
-  useEffect(() => {
-    const updateProximity = () => {
-      if (!iconRef.current) return;
-      const rect = iconRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      const dx = mouseX.get() - centerX;
-      const dy = mouseY.get() - centerY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      
-      // Illumination radius ~300px
-      const threshold = 300;
-      const val = Math.max(0, 1 - distance / threshold);
-      proximity.set(val);
-    };
-
-    const unsubscribeX = mouseX.on("change", updateProximity);
-    return () => unsubscribeX();
-  }, [mouseX, mouseY, proximity]);
-
-  // Combine proximity with global movement intensity
-  // If intensity is 0 (stopped), proximity contribution is nulled
-  const activeLevel = useTransform(
-    [proximity, movementIntensity],
-    ([p, m]) => (p as number) * (m as number)
-  );
-
-  // Transform activeLevel into visual states
-  const color = useTransform(activeLevel, [0, 1], ["var(--theme-panel-furniture)", "var(--color-primary)"]);
-  const opacity = useTransform(activeLevel, [0, 1], [0.3, 0.7]); // 70% transparency when active
-  const scale = useTransform(activeLevel, [0, 1], [1, 1.15]);
-  const glowOpacity = useTransform(activeLevel, [0.3, 1], [0, 0.4]);
-
-  return (
-    <motion.div
-      ref={iconRef}
-      className="absolute pointer-events-auto z-0"
-      style={{ left: `${x}%`, top: `${y}%`, rotate, scale, opacity }}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1 }}
-    >
-      <motion.div className="relative p-4">
-         <motion.div style={{ color }} className="transition-colors duration-200">
-           <Icon 
-             size={size} 
-             strokeWidth={0.8} 
-             strokeLinecap="square"
-             strokeLinejoin="miter"
-             className="sharp-vector"
-           />
-         </motion.div>
-         
-         {/* Illumination Bloom Effect */}
-         <motion.div 
-            style={{ opacity: glowOpacity }}
-            className="absolute inset-0 border border-primary/30 rounded-none blur-2xl scale-150" 
-         />
-      </motion.div>
-    </motion.div>
-  );
-};
-
-const FurnitureBackground = () => {
-  const mouseX = useMotionValue(-1000);
-  const mouseY = useMotionValue(-1000);
-  const movementIntensity = useSpring(0, { stiffness: 40, damping: 20 });
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-      
-      // Mark as moving
-      movementIntensity.set(1);
-      
-      // Clear previous timeout and set a new one to detect stopping
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => {
-        movementIntensity.set(0);
-      }, 150); // Short grace period for "stopping"
-    };
-    
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [mouseX, mouseY, movementIntensity]);
-
-  const furnitureTypes = [
-    Armchair, Sofa, Lamp, Table2, Bed, Library, Boxes, 
-    Coffee, Monitor, DoorOpen, Construction, Bath, 
-    Key, Tv, Fan, Heater, Utensils, RockingChair, Warehouse
-  ];
-  
-  // Generate a dense, scattered grid
-  const iconData = useMemo(() => {
-    const items = [];
-    const rows = 7;
-    const cols = 9;
-    
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        // Add random jitter 
-        const x = (c / cols) * 100 + (Math.random() * 6 - 3);
-        const y = (r / rows) * 100 + (Math.random() * 6 - 3);
-        
-        // Cycle through icons
-        const Icon = furnitureTypes[(r * cols + c) % furnitureTypes.length];
-        const rotate = Math.random() * 40 - 20;
-        const size = 45 + Math.random() * 40;
-        
-        items.push({ Icon, x, y, rotate, size, id: `${r}-${c}` });
-      }
-    }
-    return items;
-  }, []);
-
-  return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none opacity-60 select-none">
-      {iconData.map((item) => (
-        <FurnitureIcon 
-          key={item.id} 
-          Icon={item.Icon} 
-          x={item.x} 
-          y={item.y} 
-          rotate={item.rotate} 
-          size={item.size}
-          mouseX={mouseX}
-          mouseY={mouseY}
-          movementIntensity={movementIntensity}
-        />
-      ))}
-    </div>
-  );
-};
 
 const ScrollRevealText = ({ text, progress }: { text: string, progress: MotionValue<number> }) => {
   const words = text.split(" ");
   return (
-    <p className="font-sans text-[19px] sm:text-[26px] md:text-[34px] font-light leading-[1.4] text-center max-w-3xl mx-auto">
+    <div className="font-sans text-[19px] sm:text-[26px] md:text-[34px] font-light leading-[1.4] text-center max-w-3xl mx-auto">
       {words.map((word, i) => {
         const start = i / words.length;
         const end = start + (1 / words.length);
@@ -167,7 +20,7 @@ const ScrollRevealText = ({ text, progress }: { text: string, progress: MotionVa
           </React.Fragment>
         );
       })}
-    </p>
+    </div>
   );
 };
 
@@ -208,21 +61,23 @@ const PhilosophyStickySection = () => {
 
   return (
     <section ref={containerRef} className="relative w-full bg-theme-panel h-[300vh] z-10 mt-[100svh]">
-      <div className="sticky top-0 left-0 md:left-[var(--sidebar-width)] h-screen w-full md:w-[calc(100%-var(--sidebar-width))] flex flex-col items-center justify-center px-12 md:px-24 overflow-hidden bg-theme-panel transition-[left,width] duration-300">
-        <div className="max-w-5xl text-center flex flex-col items-center w-full ml-[100px] pl-[48px]">
-          <motion.span style={{ opacity: titleOpacity }} className="text-primary font-sans tracking-[0.4em] uppercase text-[10px] md:text-[12px] font-bold mb-8 block mt-12 md:mt-0 opacity-80">
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-6 md:px-12 overflow-hidden bg-theme-panel transition-all duration-300">
+        <div className="max-w-4xl text-center flex flex-col items-center w-full mx-auto">
+          <motion.span style={{ opacity: titleOpacity }} className="text-primary font-sans tracking-[0.4em] uppercase text-[9px] md:text-[12px] font-bold mb-6 md:mb-10 block opacity-80">
             The Philosophy
           </motion.span>
           
-          <div className="mb-12">
-            <ScrollRevealText 
-              text="We manufacture what others import. By combining local expertise with global standards, we deliver pieces that stand the test of time, both in durability and aesthetic appeal." 
-              progress={revealProgress} 
-            />
+          <div className="mb-12 w-full flex justify-center">
+            <div className="font-sans text-[22px] sm:text-[30px] md:text-[38px] font-light leading-[1.6] text-center w-full max-w-2xl px-4">
+              <ScrollRevealText 
+                text="We manufacture what others import. Our artifacts are designed to age as gracefully as the trees from which they came." 
+                progress={revealProgress} 
+              />
+            </div>
           </div>
 
           <motion.div style={{ opacity: buttonOpacity }} className="flex justify-center mt-8 w-full sm:w-auto pb-12 md:pb-0">
-            <Link to="/about" className="group relative w-full sm:w-auto px-10 py-5 bg-transparent border border-theme-border text-theme-text overflow-hidden transition-all">
+            <Link to="/archive" className="group relative w-full sm:w-auto px-10 py-5 bg-transparent border border-theme-border text-theme-text overflow-hidden transition-all">
               <div className="absolute inset-0 bg-theme-text -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
               <span className="relative z-10 font-sans text-[11px] font-bold tracking-[0.3em] uppercase group-hover:text-theme-base transition-colors duration-500">Read the Journal</span>
             </Link>
@@ -238,40 +93,106 @@ const HeroSection = () => {
   const textOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   return (
-    <div className="fixed top-0 left-0 md:left-[var(--sidebar-width)] h-[100svh] w-full md:w-[calc(100%-var(--sidebar-width))] z-0 pointer-events-none transition-[left,width] duration-300">
-      <section className="relative h-full w-full overflow-hidden flex flex-col items-center justify-center pointer-events-auto">
+    <div className="fixed top-0 left-0 h-[100dvh] w-full z-0 pointer-events-none transition-all duration-300" style={{ paddingLeft: 'var(--sidebar-width)' }}>
+      <section className="relative h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center pointer-events-auto">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-theme-overlay/40 z-10"></div>
+          <div className="absolute inset-0 bg-theme-overlay z-10"></div>
           <motion.div 
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 10, ease: "easeOut" }}
+            initial={{ scale: 1.15 }}
             className="h-full w-full bg-cover bg-center" 
             style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2000')" }}
           ></motion.div>
         </div>
         <motion.div style={{ opacity: textOpacity }} className="relative z-20 flex flex-1 w-full flex-col items-center justify-center text-center">
-          <div className="max-w-5xl mx-auto w-full flex flex-col items-center px-6">
+          <div className="max-w-5xl mx-auto w-full flex flex-col items-center px-4 sm:px-6 -translate-x-1 md:translate-x-0">
             <motion.p 
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="mb-0 md:mb-2 font-sans text-[11px] leading-none font-light tracking-[0.3em] text-theme-text-subtle uppercase z-10"
+              className="mb-4 md:mb-6 font-sans text-[10px] md:text-[11px] leading-none font-medium tracking-[0.4em] text-primary uppercase z-10 text-center"
             >
               Est. 2023
             </motion.p>
             <motion.h1 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.7, duration: 1 }}
-              className="font-serif text-[72px] md:text-[96px] lg:text-[120px] font-normal leading-[1] tracking-tight text-invariant-white z-10 text-center w-full"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-center font-serif text-[64px] sm:text-[80px] md:text-[100px] lg:text-[140px] leading-[1.0] mb-6 md:mb-10 text-invariant-white balance-text w-full flex flex-col items-center"
             >
-              Redefining <br /><span className="italic text-invariant-parchment">Boundless Living.</span>
+              <span>Redefining</span>
+              <span className="italic text-invariant-parchment">Boundless Living.</span>
             </motion.h1>
           </div>
         </motion.div>
       </section>
     </div>
+  );
+};
+
+const Interactive3DSection = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [20, -20]);
+  const rotateY = useTransform(scrollYProgress, [0, 1], [-20, 20]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+
+  return (
+    <section ref={containerRef} className="relative h-[50vh] md:h-[60vh] w-full bg-theme-panel overflow-hidden border-t border-theme-border cursor-default perspective-[2000px] flex items-center">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+      
+      <div className="max-w-7xl mx-auto px-6 w-full relative z-10 flex items-center justify-start h-full">
+        {/* Text Content */}
+        <motion.div style={{ opacity }} className="flex flex-col items-start text-left z-20 relative w-full sm:w-[60%] lg:w-1/2 pt-4 md:pt-10">
+          <span className="font-sans text-[10px] font-bold tracking-[0.4em] text-primary uppercase mb-4 block drop-shadow-md">Immersive View</span>
+          <h2 className="font-serif text-[32px] sm:text-[40px] md:text-[48px] lg:text-[54px] leading-[1.1] text-theme-text tracking-tight mb-4 drop-shadow-lg">
+            Experience In <em className="text-primary italic font-serif">3D</em>
+          </h2>
+          <p className="max-w-md font-sans text-xs sm:text-sm font-light leading-[1.5] text-theme-text opacity-90 drop-shadow-md mb-6">
+            Preview artifacts directly in your space. Absolute precision, infinite perspectives.
+          </p>
+          
+          <Link 
+            to="/shop?view3d=true" 
+            className="group relative w-auto px-6 lg:px-10 py-4 lg:py-5 bg-theme-base/80 backdrop-blur-md border border-primary/50 text-primary overflow-hidden transition-all flex items-center justify-center gap-3 shadow-xl"
+          >
+            <div className="absolute inset-0 bg-primary -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+            <span className="relative z-10 font-sans text-[9px] sm:text-[10px] font-bold tracking-[0.3em] uppercase group-hover:text-black transition-colors duration-500">
+              Browse 3D Catalog
+            </span>
+            <Boxes className="relative z-10 w-4 h-4 transition-colors duration-500 group-hover:text-black" />
+          </Link>
+        </motion.div>
+        
+        {/* Animated 3D Visual area - ABSOLUTE to save vertical space */}
+        <div className="absolute top-1/2 right-[-20%] sm:right-[5%] md:right-[10%] -translate-y-1/2 h-full flex items-center justify-center opacity-40 sm:opacity-70 lg:opacity-100 pointer-events-none perspective-[2000px] z-0">
+           <motion.div 
+             style={{ rotateX, rotateY, scale, transformStyle: "preserve-3d" }}
+             className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80"
+           >
+              {/* Core Box */}
+              <motion.div 
+                animate={{ 
+                  rotateY: [0, 360],
+                  rotateX: [0, 180, 360]
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 border border-primary/40 bg-theme-base/20 backdrop-blur-sm shadow-[0_0_50px_rgba(232,168,67,0.15)] flex items-center justify-center"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                 <div className="absolute inset-8 border border-primary/20 rotate-45"></div>
+                 <div className="absolute inset-12 border border-primary/30 -rotate-45 rounded-full"></div>
+                 <Boxes className="w-16 h-16 sm:w-24 sm:h-24 text-primary opacity-90" strokeWidth={0.5} />
+              </motion.div>
+           </motion.div>
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-primary/10 blur-[80px] rounded-full pointer-events-none"></div>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -323,8 +244,8 @@ const Home = () => {
               style={{ backgroundImage: `url('${spaces[activeSpace].image}')` }}
             />
           </AnimatePresence>
-          {/* Gradients for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-theme-base/60 to-theme-base/15 w-full"></div>
+          {/* Gradients for text readability - very subtle */}
+          <div className="absolute inset-0 bg-gradient-to-r from-theme-base/40 to-transparent w-full"></div>
         </div>
 
         {/* Floating Interactive List */}
@@ -415,7 +336,7 @@ const Home = () => {
               <div className="h-[1px] w-12 bg-primary hidden lg:block opacity-60"></div>
               <span className="font-sans text-[12px] font-bold tracking-[0.4em] text-primary uppercase opacity-90">New Arrival</span>
             </div>
-            <h2 className="font-serif text-[42px] sm:text-[48px] md:text-[56px] leading-[1.15] text-theme-text tracking-tight">The Vanguard Lounge.</h2>
+            <h2 className="font-serif text-[52px] sm:text-[48px] md:text-[56px] leading-[1.1] text-theme-text tracking-tight">The Vanguard Lounge.</h2>
             <p className="max-w-md font-sans text-base sm:text-[18px] font-light leading-[1.6] text-theme-text opacity-70">
               Sculpted from Italian Walnut and defined by silence. The Vanguard invites a pause in the day, featuring hand-stitched cognac leather and a silhouette that defies gravity.
             </p>
@@ -446,7 +367,7 @@ const Home = () => {
               <div className="h-[1px] w-12 bg-theme-text hidden lg:block opacity-30"></div>
               <span className="font-sans text-[12px] font-bold tracking-[0.4em] text-theme-text uppercase opacity-80">Lighting</span>
             </div>
-            <h2 className="font-serif text-[42px] sm:text-[48px] md:text-[56px] leading-[1.15] text-theme-text italic tracking-tight">Lumina Series.</h2>
+            <h2 className="font-serif text-[52px] sm:text-[48px] md:text-[56px] leading-[1.1] text-theme-text italic tracking-tight">Lumina Series.</h2>
             <p className="max-w-md font-sans text-base sm:text-[18px] font-light leading-[1.6] text-theme-text opacity-70">
               Brass and blown glass, united in a study of balance. The Lumina floor lamp provides a warm, directional glow ideal for the reading corner.
             </p>
@@ -479,9 +400,9 @@ const Home = () => {
       </section>
 
       {/* Act II.7: Curated Collections (Grid) */}
-      <section className="w-full bg-theme-panel py-32 px-6 md:px-12 border-t border-theme-border relative z-30">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 text-center md:text-left">
+      <section className="w-full flex flex-col justify-center h-auto min-h-[50vh] md:h-[100vh] bg-theme-panel py-16 md:py-0 px-6 md:px-12 border-t border-theme-border relative z-30">
+        <div className="mx-auto max-w-7xl w-full">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-16 gap-4 md:gap-6 text-center md:text-left">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -501,47 +422,47 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-1 px-1 bg-theme-border/30 border border-theme-border shadow-2xl">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:grid md:grid-cols-3 md:gap-1 px-1 -mx-6 md:mx-0 pb-6 md:pb-0 hide-scrollbar-mobile md:bg-theme-border/30 md:border md:border-theme-border md:shadow-2xl">
             {/* Card 1 */}
-            <Link to="/shop" className="group relative aspect-[4/5] bg-theme-surface overflow-hidden cursor-pointer">
+            <Link to="/shop" className="group relative aspect-[4/5] w-[80vw] ml-6 md:ml-0 md:w-auto shrink-0 snap-center md:bg-theme-surface overflow-hidden cursor-pointer rounded-sm md:rounded-none">
               <motion.div 
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.7 }}
-                className="absolute inset-0 bg-cover bg-center opacity-80 group-hover:opacity-100" 
+                className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:opacity-100" 
                 style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuB1i-5Y196WnzMhESZXJLWrxyo-OWYaPVt_HjPGOVY2SWdMS1CPMuKO-pi-1yyJUsBu3RBXlQD7bkwKbw6KYeVabLZ0Ql40k4H_D5or692NXWyIUAwU6gvgPhWFx0wyH7s9WBG7QxQGKZpK4cOzgFweF04-KUb6ZjdVR6m5FHXSJfHni0CQ7izLqBfuZ-JGyWjvWg0QfIDhhqL9QGsh8dGCqxSj4vxl4bYWbKI09cDvbnK-ZElGCsqQqTMHkaAuitSKl6rgnq24yPs')" }}
               ></motion.div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 w-full p-8 translate-y-2 transition-transform duration-500 group-hover:translate-y-0">
+              <div className="absolute inset-0 bg-gradient-to-t from-theme-panel/90 md:from-black/50 via-theme-panel/20 md:via-black/10 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 md:translate-y-2 transition-transform duration-500 group-hover:translate-y-0">
                 <span className="font-sans text-[10px] font-bold tracking-[0.2em] uppercase text-primary mb-2 block">Seating</span>
-                <h4 className="font-serif text-2xl text-white italic">The Archive Chair</h4>
+                <h4 className="font-serif text-2xl text-theme-text md:text-white italic">The Archive Chair</h4>
               </div>
             </Link>
             {/* Card 2 */}
-            <Link to="/shop" className="group relative aspect-[4/5] bg-theme-surface overflow-hidden cursor-pointer">
+            <Link to="/shop" className="group relative aspect-[4/5] w-[80vw] md:w-auto shrink-0 snap-center md:bg-theme-surface overflow-hidden cursor-pointer rounded-sm md:rounded-none">
               <motion.div 
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.7 }}
-                className="absolute inset-0 bg-cover bg-center opacity-80 group-hover:opacity-100" 
+                className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:opacity-100" 
                 style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuA_sHxCIUXm0ogC_MM-gswuAfyOzR9gVMrJCwZ2_EWeREoruXjqQSPv4Xca-QuUJejssmdn08ncfuNrh1bHQQOdFyx1N9yrArxZHVLX4kc1rC4J7p2n0v4MQMmy8bUp87fNSIQmhF9LhHbfmTK3gXwh5-VdocYbI0AjKLiu8HVKbntDDTX79FzXeIyX-fo0hqtVfloV3tSIYDm588wHdPA_uyxlUt0Ssu2nsuIf5C0A6gYETIewwQU6RftTDKysiD76o1jkROI-HVI')" }}
               ></motion.div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 w-full p-8 translate-y-2 transition-transform duration-500 group-hover:translate-y-0">
+              <div className="absolute inset-0 bg-gradient-to-t from-theme-panel/90 md:from-black/50 via-theme-panel/20 md:via-black/10 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 md:translate-y-2 transition-transform duration-500 group-hover:translate-y-0">
                 <span className="font-sans text-[10px] font-bold tracking-[0.2em] uppercase text-primary mb-2 block">Tables</span>
-                <h4 className="font-serif text-2xl text-white italic">Carrara Ovals</h4>
+                <h4 className="font-serif text-2xl text-theme-text md:text-white italic">Carrara Ovals</h4>
               </div>
             </Link>
             {/* Card 3 */}
-            <Link to="/shop" className="group relative aspect-[4/5] bg-theme-surface overflow-hidden cursor-pointer">
+            <Link to="/shop" className="group relative aspect-[4/5] w-[80vw] mr-6 md:mr-0 md:w-auto shrink-0 snap-center md:bg-theme-surface overflow-hidden cursor-pointer rounded-sm md:rounded-none">
               <motion.div 
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.7 }}
-                className="absolute inset-0 bg-cover bg-center opacity-80 group-hover:opacity-100" 
+                className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:opacity-100" 
                 style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuC95FtdtJHQaQeJZwKvSKZCp87DWz-e1nlj_tGKFAetSzG9VZWL6XiVML18ZgVAmhXeI4eePghrYmn6h7asbQRntdYws3BpOUQHog5QVyk7p42L64jVNBmKfN5OYAOjwGvhneXlWLK-gHdRCnmTlarS2rMiBzSCKtUaiCMemaoUp_OvN1GRRIEwu2qm_VYUWyKYJ_vmrbvTt_3G3EgXZfqODinKcHDIY4yYlGTryaC1BViDpw7mrLVLIx9CqosJ2JkLpp2VBdMj2mc')" }}
               ></motion.div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 w-full p-8 translate-y-2 transition-transform duration-500 group-hover:translate-y-0">
+              <div className="absolute inset-0 bg-gradient-to-t from-theme-panel/90 md:from-black/50 via-theme-panel/20 md:via-black/10 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 md:translate-y-2 transition-transform duration-500 group-hover:translate-y-0">
                 <span className="font-sans text-[10px] font-bold tracking-[0.2em] uppercase text-primary mb-2 block">Storage</span>
-                <h4 className="font-serif text-2xl text-white italic">Obsidian Sideboard</h4>
+                <h4 className="font-serif text-2xl text-theme-text md:text-white italic">Obsidian Sideboard</h4>
               </div>
             </Link>
           </div>
@@ -578,28 +499,32 @@ const Home = () => {
           </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative -mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative -mt-6 md:-mt-16">
             {featuredArtifacts.map((artifact, index) => (
               <Link 
                 key={artifact.id} 
                 to={`/product/${artifact.slug}`}
-                className={`group cursor-pointer ${index === 1 ? 'md:mt-32 md:-ml-12 relative z-10' : 'relative z-0'}`}
+                className={`group cursor-pointer ${index === 1 ? 'md:mt-32 md:-ml-12 relative z-10' : 'relative z-0'} aspect-square md:aspect-[4/5]`}
               >
-                <div className="relative aspect-[4/5] overflow-hidden mb-8 border border-theme-border">
+                <div className="absolute inset-0 overflow-hidden border border-theme-border rounded-sm md:rounded-none">
                   <div 
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" 
                     style={{ backgroundImage: `url('${artifact.images[0]}')` }}
                   ></div>
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                </div>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <span className="font-sans text-[13px] leading-[1.3] tracking-[0.2em] uppercase text-primary/80 mb-3 block">{artifact.category}</span>
-                    <h4 className="font-serif text-[30px] leading-[1.3] text-theme-text mb-3">{artifact.name}</h4>
-                    <p className="text-theme-text-muted text-[14px] leading-[1.4] font-light">{artifact.materials}</p>
-                  </div>
-                  <div className="w-12 h-12 border border-theme-border-strong rounded-full flex items-center justify-center group-hover:bg-theme-text group-hover:text-theme-base transition-all">
-                    <span className="material-symbols-outlined text-[16px] text-theme-text group-hover:text-theme-base">arrow_forward</span>
+                  <div className="absolute inset-0 bg-theme-base/60 md:bg-black/10 group-hover:bg-theme-base/80 md:group-hover:bg-transparent transition-colors duration-500"></div>
+                  
+                  {/* Overlay text */}
+                  <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <span className="font-sans text-[11px] md:text-[13px] leading-[1.3] tracking-[0.2em] uppercase text-primary mb-2 md:mb-3 block shadow-sm">{artifact.category}</span>
+                        <h4 className="font-serif text-[24px] md:text-[30px] leading-[1.1] text-theme-text mb-2 text-shadow-md">{artifact.name}</h4>
+                        <p className="text-theme-text-muted md:text-transparent text-[12px] md:text-[14px] leading-[1.4] font-light max-w-[80%] md:w-auto transition-colors duration-500 group-hover:text-theme-text-muted drop-shadow-md">{artifact.description || artifact.materials}</p>
+                      </div>
+                      <div className="w-10 h-10 md:w-12 md:h-12 border border-theme-border-strong rounded-full flex shrink-0 items-center justify-center bg-black/20 group-hover:bg-theme-text group-hover:text-theme-base transition-all">
+                        <span className="material-symbols-outlined text-[14px] md:text-[16px] text-theme-text group-hover:text-theme-base">arrow_forward</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Link>
@@ -607,57 +532,63 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
+      {/* Act II.8: 3D AR Experience */}
+      <Interactive3DSection />
 
-      {/* Footer CTA */}
-      <section className="relative w-full bg-theme-panel py-40 px-6 overflow-hidden">
-        {/* Abstract background detail */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2" />
-        
-        <FurnitureBackground />
-        
-        <div className="mx-auto max-w-4xl text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center gap-8"
-          >
-            <div className="flex flex-col gap-6">
-              <h2 className="text-5xl md:text-[84px] font-serif text-theme-text italic leading-[1.05] tracking-tight">
-                Crafting the boundless<br />future of living.
-              </h2>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row items-center gap-6 mt-12">
-              <button 
-                onClick={() => setIsInquiryOpen(true)}
-                className="group relative px-10 py-5 bg-white dark:bg-theme-panel border border-theme-border text-theme-text overflow-hidden transition-all hover:scale-105 active:scale-95"
+      {/* Act II.9: Trust Markers (Benefits) */}
+      <section className="bg-theme-base py-24 border-t border-theme-border overflow-hidden relative z-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <span className="block text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4">Our Promise</span>
+            <h2 className="text-4xl md:text-5xl font-serif italic text-theme-text font-normal">The Pillars of Excellence</h2>
+          </div>
+          
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+            {[
+              { 
+                title: "High-Quality Products", 
+                desc: "Premium materials and expert craftsmanship create durable furniture that stands the test of time, providing excellent value for your investment.",
+                icon: "verified"
+              },
+              { 
+                title: "Reliable Service", 
+                desc: "Our dedicated team ensures your journey from selection to installation is seamless, transparent, and personalized to your needs.",
+                icon: "support_agent"
+              },
+              { 
+                title: "Functional Design", 
+                desc: "We blend architectural aesthetics with ergonomic precision, ensuring every piece is as functional as it is visually striking.",
+                icon: "architecture"
+              },
+              { 
+                title: "Timely Delivery", 
+                desc: "Our white-glove logistics team ensures your artifacts arrive and are installed with the care and punctuality they deserve.",
+                icon: "local_shipping"
+              }
+            ].map((benefit, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1, duration: 0.8 }}
+                className="group p-4 md:p-8 border border-theme-border bg-theme-panel hover:border-primary transition-all duration-500 flex flex-col items-center text-center shadow-sm hover:shadow-xl"
               >
-                <div className="absolute inset-0 bg-primary -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-                <span className="relative z-10 font-sans text-[11px] font-bold tracking-[0.3em] uppercase group-hover:text-black transition-all duration-500">Start My Journey</span>
-              </button>
-
-              <Link 
-                to="/bespoke" 
-                onClick={() => window.scrollTo(0, 0)}
-                className="group relative px-10 py-5 bg-white dark:bg-theme-panel border border-theme-border text-theme-text overflow-hidden transition-all hover:scale-105 active:scale-95"
-              >
-                <div className="absolute inset-0 bg-primary -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-                <span className="relative z-10 font-sans text-[11px] font-bold tracking-[0.3em] uppercase group-hover:text-black transition-all duration-500">Explore Bespoke</span>
-              </Link>
-            </div>
-
-            <p className="max-w-md text-theme-text-muted text-sm font-light leading-relaxed mt-4">
-              Join the select few who live without limits. Our master artisans are ready to translate your vision into an architectural reality.
-            </p>
-          </motion.div>
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-theme-border flex items-center justify-center mb-4 md:mb-6 group-hover:bg-primary/10 group-hover:border-primary transition-all duration-500">
+                  <span className="material-symbols-outlined text-primary text-2xl md:text-3xl">{benefit.icon}</span>
+                </div>
+                <h4 className="text-sm md:text-xl font-serif text-theme-text mb-2 md:mb-4 italic">{benefit.title}</h4>
+                <p className="text-[10px] md:text-sm text-theme-text-muted font-light leading-relaxed">
+                  {benefit.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
-
-      <BespokeInquiryModal 
-        isOpen={isInquiryOpen} 
-        onClose={() => setIsInquiryOpen(false)} 
-      />
+      
+      <HomeFooterCTA />
 
     </motion.div>
   );

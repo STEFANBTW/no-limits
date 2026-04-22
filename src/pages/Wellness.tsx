@@ -1,11 +1,13 @@
 import React from 'react';
+import CollectionSpotlight from '../components/CollectionSpotlight';
+import StartDialogueForm from '../components/StartDialogueForm';
 
 const Wellness = () => {
   return (
     <div className="bg-stone-950 text-stone-200 antialiased font-['Public_Sans'] overflow-x-hidden">
       <main className="w-full relative">
         {/* Section 1: Hero */}
-        <section className="min-h-screen w-full relative flex items-center justify-center pt-32">
+        <section className="min-h-[100dvh] w-full relative flex items-center justify-center">
           <div className="absolute inset-0 z-0">
             <img 
               alt="Luxurious restorative spa environment" 
@@ -17,7 +19,7 @@ const Wellness = () => {
           </div>
           <div className="relative z-10 text-center px-8 max-w-5xl mx-auto flex flex-col items-center">
             <span className="font-['Playfair_Display'] italic text-stone-400 tracking-widest mb-6 block text-lg">A Sanctuary of Senses</span>
-            <h1 className="font-['Playfair_Display'] text-6xl md:text-8xl lg:text-9xl text-stone-100 font-light tracking-tight mb-8 leading-none">The Wellness Suite</h1>
+            <h1 className="font-serif italic text-7xl md:text-9xl lg:text-[140px] text-stone-100 font-light tracking-tight mb-8 leading-none">The Wellness Suite</h1>
             <div className="w-px h-32 bg-stone-700 mt-12 opacity-50"></div>
           </div>
         </section>
@@ -159,32 +161,9 @@ const Wellness = () => {
           </div>
         </section>
 
-        {/* Section 5: Consultation */}
-        <section className="min-h-screen w-full bg-stone-950 relative flex items-center justify-center py-32 border-t border-stone-900 px-8">
-          <div className="max-w-3xl w-full text-center">
-            <span className="font-['Playfair_Display'] italic text-stone-500 tracking-widest mb-6 block text-lg">Commence the Journey</span>
-            <h2 className="font-['Playfair_Display'] text-4xl md:text-5xl text-stone-100 font-light mb-12">Wellness Consultation</h2>
-            <form className="space-y-8 text-left max-w-xl mx-auto">
-              <div className="relative">
-                <input className="peer w-full bg-transparent border-0 border-b border-stone-700 text-stone-200 focus:ring-0 focus:border-stone-400 py-3 px-0 placeholder-transparent" id="name" placeholder="Name" type="text" />
-                <label className="absolute left-0 -top-3.5 text-stone-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-stone-400 font-light" htmlFor="name">Your Name</label>
-              </div>
-              <div className="relative">
-                <input className="peer w-full bg-transparent border-0 border-b border-stone-700 text-stone-200 focus:ring-0 focus:border-stone-400 py-3 px-0 placeholder-transparent" id="email" placeholder="Email" type="email" />
-                <label className="absolute left-0 -top-3.5 text-stone-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-stone-400 font-light" htmlFor="email">Email Address</label>
-              </div>
-              <div className="relative">
-                <textarea className="peer w-full bg-transparent border-0 border-b border-stone-700 text-stone-200 focus:ring-0 focus:border-stone-400 py-3 px-0 placeholder-transparent resize-none" id="vision" placeholder="Vision" rows={3}></textarea>
-                <label className="absolute left-0 -top-3.5 text-stone-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-stone-400 font-light" htmlFor="vision">A Brief Vision of Your Sanctuary</label>
-              </div>
-              <div className="pt-8 text-center">
-                <button className="px-12 py-4 border border-stone-600 text-stone-300 hover:text-stone-100 hover:border-stone-300 hover:bg-stone-900 transition-all duration-300 uppercase tracking-widest text-sm w-full md:w-auto" type="button">
-                    Request Consultation
-                </button>
-              </div>
-            </form>
-          </div>
-        </section>
+        {/* Bottom Spotlight and Form */}
+        <CollectionSpotlight collectionName="Wellness" />
+        <StartDialogueForm />
       </main>
 
       {/* Footer */}

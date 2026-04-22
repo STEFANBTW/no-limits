@@ -94,11 +94,13 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ isOpen, onClose, onApply, cur
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto px-8 pt-2 pb-6 scrollbar-none space-y-8">
+            <div className="flex-1 overflow-y-auto px-8 pt-8 pb-6 scrollbar-none space-y-12">
               {/* Categories / Type */}
-              <div className="space-y-6">
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-theme-text-subtle block">Artifact Type</span>
-                <div className="flex flex-wrap gap-2">
+              <div className="relative group">
+                <span className="absolute -top-6 left-0 text-[0.6rem] font-sans tracking-[0.2em] uppercase text-[#54524F] transition-colors group-hover:text-primary">
+                  Artifact Classification
+                </span>
+                <div className="flex flex-wrap gap-2 pt-2">
                   {['All', ...categories].map((cat) => (
                     <button
                       key={cat}
@@ -109,16 +111,27 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ isOpen, onClose, onApply, cur
                           toggleCategory(cat);
                         }
                       }}
-                      className={`text-[10px] py-2.5 px-6 rounded-full transition-all border ${
+                      className={`text-[9px] py-2 px-5 transition-all border ${
                         (cat === 'All' && filters.categories.length === 0) || filters.categories.includes(cat)
-                          ? 'bg-theme-text text-theme-base border-theme-text shadow-lg'
-                          : 'bg-transparent text-theme-text-muted border-theme-border hover:border-theme-border-strong text-theme-text-muted hover:text-theme-text'
-                      } font-bold tracking-widest uppercase mb-1`}
+                          ? 'bg-primary text-theme-text-inverse border-primary'
+                          : 'bg-transparent text-theme-text-muted border-theme-border hover:border-theme-border-strong hover:text-theme-text'
+                      } font-black tracking-widest uppercase`}
                     >
                       {cat}
                     </button>
                   ))}
                 </div>
+              </div>
+
+              {/* Architectural Origin Dropdown Pattern */}
+              <div className="relative group">
+                <div className="w-full bg-transparent border-b border-theme-border py-3 px-0 text-theme-text flex items-center justify-between cursor-not-allowed">
+                  <span className="text-[13px] text-theme-text-muted">Global Selection</span>
+                  <ChevronDown className="w-4 h-4 text-theme-text-subtle" />
+                </div>
+                <label className="absolute -top-4 left-0 text-[0.6rem] transition-all pointer-events-none uppercase tracking-[0.2em] font-sans text-[#54524F]">
+                  Region of Origin
+                </label>
               </div>
 
               {/* Price Range */}
@@ -268,15 +281,17 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ isOpen, onClose, onApply, cur
             <div className="px-8 py-6 border-t border-theme-border bg-theme-base flex items-center gap-4">
               <button 
                 onClick={handleReset}
-                className="flex-1 text-theme-text-muted hover:text-theme-text py-4 text-[9px] font-bold uppercase tracking-[0.2em] transition-colors border border-theme-border hover:border-theme-border-strong"
+                className="group relative flex-1 h-14 border border-theme-border overflow-hidden transition-all text-theme-text-muted hover:text-theme-text"
               >
-                Reset
+                <div className="absolute inset-0 bg-primary -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+                <span className="relative z-10 text-[9px] font-bold uppercase tracking-[0.2em] group-hover:text-black transition-colors duration-500">Reset</span>
               </button>
               <button 
                 onClick={handleApply}
-                className="flex-[2] bg-theme-text text-theme-base py-4 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-primary hover:text-theme-text transition-all duration-300"
+                className="group relative flex-[2] h-14 bg-white dark:bg-theme-panel border border-theme-border overflow-hidden transition-all text-theme-text"
               >
-                Apply Filters
+                <div className="absolute inset-0 bg-primary -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+                <span className="relative z-10 text-[10px] font-bold uppercase tracking-[0.3em] group-hover:text-black transition-colors duration-500">Apply Filters</span>
               </button>
             </div>
           </motion.div>

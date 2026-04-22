@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import StartDialogueForm from '../components/StartDialogueForm';
 
 const Living = () => {
   const [activeLightMode, setActiveLightMode] = useState<'day' | 'night'>('day');
@@ -19,7 +21,7 @@ const Living = () => {
       `}</style>
 
       {/* HERO SECTION (From Block 2) */}
-      <section className="min-h-screen relative flex items-center justify-center overflow-hidden border-b border-theme-border">
+      <section className="min-h-[100dvh] relative flex items-center justify-center overflow-hidden border-b border-theme-border">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-theme-overlay/40 z-10"></div>
           <div className="w-full h-[120vh] bg-center bg-cover scale-110" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=60&w=1200')", backgroundAttachment: 'fixed' }}>
@@ -28,9 +30,9 @@ const Living = () => {
         <div className="relative z-20 w-full max-w-[1600px] mx-auto px-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-7">
             <span className="text-primary font-sans tracking-[0.4em] uppercase text-xs mb-6 block">The Living &amp; Parlor Spaces</span>
-            <h2 className="text-5xl md:text-8xl text-theme-text font-medium leading-[1.1] mb-8 font-display">
+            <h1 className="text-6xl md:text-9xl text-theme-text font-medium leading-[0.9] mb-8 font-display">
               Curating <br/> <span className="italic font-light">Conversation.</span>
-            </h2>
+            </h1>
             <p className="max-w-md text-lg text-theme-text-muted leading-relaxed font-sans font-light">
               A masterclass in interior flow, where architectural precision meets the warmth of lived-in luxury.
             </p>
@@ -136,41 +138,48 @@ const Living = () => {
         </div>
       </section>
 
-      {/* LIVING NARRATIVES (From Block 2) */}
+      {/* LIVING COLLECTION */}
       <section className="min-h-screen bg-theme-base py-32 px-12 border-t border-theme-border">
         <div className="max-w-[1600px] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
             <div className="max-w-xl">
               <span className="text-primary font-sans tracking-[0.4em] uppercase text-xs mb-4 block">Bespoke Curation</span>
-              <h2 className="text-4xl md:text-5xl mb-0 font-display">Living Narratives</h2>
-            </div>
-            <div className="flex gap-8 md:gap-12 font-sans text-xs tracking-[0.2em] uppercase text-theme-text-subtle">
-              <span className="cursor-pointer hover:text-theme-text transition-colors border-b border-primary pb-2 text-theme-text">Residential</span>
-              <span className="cursor-pointer hover:text-theme-text transition-colors pb-2">Hospitality</span>
-              <span className="cursor-pointer hover:text-theme-text transition-colors pb-2">Office</span>
+              <h2 className="text-4xl md:text-5xl mb-4 font-display">The Living Collection</h2>
+              <p className="text-theme-text-subtle text-lg leading-relaxed">Discover the signature architectural pieces designed to curate profound atmospheres in your living space.</p>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[800px]">
-            <div className="md:col-span-8 md:row-span-2 bg-theme-surface relative group overflow-hidden min-h-[300px]">
+            <Link to="/shop/product/living-green-atrium" className="md:col-span-8 md:row-span-2 bg-theme-surface relative group overflow-hidden min-h-[300px] block">
               <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&q=60&w=800')" }}></div>
-              <div className="absolute inset-0 bg-theme-overlay/20"></div>
-            </div>
-            <div className="md:col-span-4 md:row-span-3 bg-theme-surface relative group overflow-hidden min-h-[300px]">
-              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=60&w=800')" }}></div>
-              <div className="absolute inset-0 bg-theme-overlay/40 p-12 flex flex-col justify-end">
-                <h4 className="text-4xl mb-2 font-display">The Sunroom Modular</h4>
-                <p className="text-sm font-sans text-theme-text-muted">Adaptable configurations for light-filled environments.</p>
+              <div className="absolute inset-0 bg-theme-overlay/20 transition-opacity group-hover:opacity-0"></div>
+              <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <span className="bg-theme-surface/90 backdrop-blur-md px-4 py-2 border border-theme-border text-xs uppercase tracking-widest text-theme-text font-bold">The Green Atrium Set</span>
               </div>
+            </Link>
+            <Link to="/shop/product/living-sunroom-modular" className="md:col-span-4 md:row-span-3 bg-theme-surface relative group overflow-hidden min-h-[300px] block">
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=60&w=800')" }}></div>
+              <div className="absolute inset-0 bg-theme-overlay/40 p-12 flex flex-col justify-end transition-colors group-hover:bg-theme-overlay/60">
+                <h4 className="text-4xl mb-2 font-display text-white relative z-10 transition-transform duration-500 group-hover:-translate-y-2">The Sunroom Modular</h4>
+                <p className="text-sm font-sans text-white/80 relative z-10 transition-transform duration-500 group-hover:-translate-y-2">Adaptable configurations for light-filled environments.</p>
+              </div>
+            </Link>
+            <div className="md:col-span-4 md:row-span-1 min-h-[300px] flex items-center justify-center p-8">
+              <Link to="/shop?collection=Living" className="w-full text-center py-6 border border-primary text-primary hover:bg-primary hover:text-theme-base font-bold uppercase tracking-[0.2em] transition-all duration-300">
+                Explore Collection
+              </Link>
             </div>
-            <div className="md:col-span-4 md:row-span-1 bg-theme-surface relative group overflow-hidden min-h-[300px]">
+            <Link to="/shop/product/living-mid-century-chair" className="md:col-span-4 md:row-span-1 bg-theme-surface relative group overflow-hidden min-h-[300px] block">
               <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?auto=format&fit=crop&q=60&w=800')" }}></div>
-            </div>
-            <div className="md:col-span-8 md:row-span-1 bg-theme-surface relative group overflow-hidden min-h-[300px]">
+              <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <span className="bg-theme-surface/90 backdrop-blur-md px-4 py-2 border border-theme-border text-xs uppercase tracking-widest text-theme-text font-bold">Mid-Century Accent</span>
+              </div>
+            </Link>
+            <Link to="/shop/product/living-velvet-sofa" className="md:col-span-8 md:row-span-1 bg-theme-surface relative group overflow-hidden min-h-[300px] block">
               <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=60&w=800')" }}></div>
               <div className="absolute inset-0 bg-theme-overlay/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <button className="bg-theme-border backdrop-blur-md px-10 py-4 border border-theme-border-strong rounded-full tracking-widest uppercase text-xs">View Project</button>
+                <button className="bg-theme-border backdrop-blur-md px-10 py-4 border border-theme-border-strong rounded-full tracking-widest uppercase text-xs text-white">View The Velvet Lounge</button>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -236,33 +245,13 @@ const Living = () => {
               </div>
             </div>
           </div>
-          <div className="lg:w-1/2 w-full max-w-lg mx-auto bg-theme-surface p-12 shadow-2xl border border-theme-border">
-            <h3 className="text-theme-text text-3xl font-bold mb-2 font-display">Start Your Bespoke Project</h3>
-            <p className="text-theme-text-subtle text-sm mb-8">Schedule a private consultation with our master designers.</p>
-            <form className="flex flex-col gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="text-white/70 text-sm font-medium tracking-wide uppercase">Full Name</label>
-                <input className="bg-theme-panel border border-theme-border text-theme-text p-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors w-full" placeholder="Jane Doe" type="text"/>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-white/70 text-sm font-medium tracking-wide uppercase">Email Address</label>
-                <input className="bg-theme-panel border border-theme-border text-theme-text p-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors w-full" placeholder="jane@example.com" type="email"/>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-white/70 text-sm font-medium tracking-wide uppercase">Project Scope</label>
-                <select className="bg-theme-panel border border-theme-border text-theme-text-subtle p-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors w-full appearance-none">
-                  <option>Living &amp; Parlor Redesign</option>
-                  <option>Full Home Bespoke Furniture</option>
-                  <option>Architectural Collaboration</option>
-                </select>
-              </div>
-              <button className="mt-4 bg-primary text-theme-text font-bold tracking-widest uppercase text-sm py-5 px-8 hover:bg-primary/90 transition-colors w-full flex justify-center items-center gap-2" type="button">
-                Request Consultation <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </button>
-            </form>
+          <div className="lg:w-1/2 w-full max-w-lg mx-auto">
+            {/* The form was here but is moved to bottom of page per design */}
           </div>
         </div>
       </section>
+      
+      <StartDialogueForm />
     </div>
   );
 };

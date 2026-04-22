@@ -1,4 +1,6 @@
 import React from 'react';
+import CollectionSpotlight from '../components/CollectionSpotlight';
+import StartDialogueForm from '../components/StartDialogueForm';
 
 const Outdoor = () => {
   return (
@@ -9,14 +11,14 @@ const Outdoor = () => {
       `}</style>
 
       {/* HERO SECTION (From Block 2) */}
-      <section className="min-h-screen relative flex items-center justify-center overflow-hidden">
+      <section className="min-h-[100dvh] relative flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-theme-overlay/50 z-10"></div>
           <div className="w-full h-[120vh] bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=60&w=1200')", backgroundAttachment: 'fixed' }}></div>
         </div>
         <div className="relative z-20 flex flex-col items-center justify-center text-center h-full max-w-5xl mx-auto px-6 mt-20">
           <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6 font-medium">Outdoor &amp; Courtyard Architecture</p>
-          <h1 className="text-5xl md:text-8xl lg:text-9xl font-display font-medium leading-none mb-8 drop-shadow-2xl">
+          <h1 className="text-6xl md:text-9xl lg:text-[140px] font-display font-medium leading-[0.9] mb-8 drop-shadow-2xl">
             En Plein Air
           </h1>
           <p className="text-xl md:text-4xl text-theme-text-muted max-w-3xl font-light leading-relaxed mb-12">
@@ -145,52 +147,9 @@ const Outdoor = () => {
           </div>
         </div>
       </section>
-
-      {/* BESPOKE COMMISSION (From Block 2) */}
-      <section className="min-h-screen bg-theme-panel flex flex-col justify-center py-24 px-8 lg:px-24">
-        <div className="max-w-7xl mx-auto w-full h-full flex flex-col md:flex-row gap-16 items-center">
-          <div className="w-full md:w-5/12">
-            <p className="text-primary text-sm uppercase tracking-[0.2em] mb-4">Private Estate Collection</p>
-            <h2 className="text-4xl md:text-4xl font-display font-medium mb-6">Bespoke<br/>Commission</h2>
-            <p className="text-theme-text-subtle font-light leading-relaxed mb-10">
-              Engage our architectural consultation team to design custom exterior living solutions tailored to your estate's unique vernacular.
-            </p>
-            <form className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-xs uppercase tracking-widest text-theme-text-subtle mb-2">First Name</label>
-                  <input className="w-full bg-transparent border-b border-theme-border-strong pb-2 text-theme-text focus:outline-none focus:border-primary transition-colors font-light" type="text"/>
-                </div>
-                <div>
-                  <label className="block text-xs uppercase tracking-widest text-theme-text-subtle mb-2">Last Name</label>
-                  <input className="w-full bg-transparent border-b border-theme-border-strong pb-2 text-theme-text focus:outline-none focus:border-primary transition-colors font-light" type="text"/>
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs uppercase tracking-widest text-theme-text-subtle mb-2">Email Address</label>
-                <input className="w-full bg-transparent border-b border-theme-border-strong pb-2 text-theme-text focus:outline-none focus:border-primary transition-colors font-light" type="email"/>
-              </div>
-              <div>
-                <label className="block text-xs uppercase tracking-widest text-theme-text-subtle mb-2">Project Details</label>
-                <textarea className="w-full bg-transparent border-b border-theme-border-strong pb-2 text-theme-text focus:outline-none focus:border-primary transition-colors font-light resize-none" rows={3}></textarea>
-              </div>
-              <button className="w-full py-4 bg-primary/10 border border-primary text-primary uppercase tracking-[0.2em] text-sm hover:bg-primary hover:text-theme-text transition-all duration-300 mt-8" type="button">
-                Request Consultation
-              </button>
-            </form>
-          </div>
-          <div className="w-full md:w-7/12 h-[80vh] grid grid-cols-2 gap-4">
-            <div className="bg-cover bg-center rounded-sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=60&w=800')" }}></div>
-            <div className="grid grid-rows-2 gap-4">
-              <div className="bg-cover bg-center rounded-sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1599809275671-b5942cabc7a2?auto=format&fit=crop&q=60&w=800')" }}></div>
-              <div className="bg-theme-surface p-8 flex flex-col justify-center rounded-sm">
-                <h4 className="font-display text-4xl mb-4">Global Reach</h4>
-                <p className="text-theme-text-subtle text-sm font-light">From the French Riviera to the California coastline, our architectural integrations define the world's most exclusive private estates.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
+      <CollectionSpotlight collectionName="Outdoor" />
+      <StartDialogueForm />
     </div>
   );
 };

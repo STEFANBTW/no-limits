@@ -16,6 +16,8 @@ export interface Product {
   images: string[];
   model3d?: string;
   featured?: boolean;
+  itemType?: 'Piece' | 'Collection';
+  collectionName?: string;
 }
 
 export const products: Product[] = [
@@ -260,5 +262,202 @@ export const products: Product[] = [
     materials: 'Emerald Velvet, Blackened Steel.',
     dimensions: { height: '82 cm', width: '52 cm', depth: '56 cm', seatHeight: '46 cm' },
     images: ['https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&q=80&w=800', 'https://images.unsplash.com/photo-1567538096621-ce83f124cfa9?auto=format&fit=crop&q=80&w=800']
+  },
+  // --- NEW COLLECTIONS START HERE ---
+  {
+    id: 'c1',
+    slug: 'conversation-3-seater',
+    name: 'The Conversation 3-Seater',
+    category: 'Seating',
+    price: '₦9,500',
+    description: 'The foundation of the Living space.',
+    details: 'A robust three-seater sofa featuring continuous lines and deep cushions.',
+    materials: 'Bouclé, Oak Frame',
+    dimensions: { height: '80 cm', width: '240 cm', depth: '95 cm', seatHeight: '42 cm' },
+    images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Living'
+  },
+  {
+    id: 'c2',
+    slug: 'conversation-2-seater',
+    name: 'The Conversation 2-Seater',
+    category: 'Seating',
+    price: '₦7,200',
+    description: 'Intimate seating for the Living space.',
+    details: 'Matching the 3-seater aesthetic with a more compact footprint.',
+    materials: 'Bouclé, Oak Frame',
+    dimensions: { height: '80 cm', width: '180 cm', depth: '95 cm', seatHeight: '42 cm' },
+    images: ['https://images.unsplash.com/photo-1519643381401-22c77e60520e?auto=format&fit=crop&q=80&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Living'
+  },
+  {
+    id: 'c3',
+    slug: 'conversation-armchair',
+    name: 'The Conversation Armchair',
+    category: 'Seating',
+    price: '₦4,800',
+    description: 'The accent piece of the Living space.',
+    details: 'A sculptural armchair that forms the perfect conversation circle.',
+    materials: 'Bouclé, Oak Frame',
+    dimensions: { height: '80 cm', width: '90 cm', depth: '95 cm', seatHeight: '42 cm' },
+    images: ['https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&q=80&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Living'
+  },
+  {
+    id: 'c4',
+    slug: 'sanctuary-master-bed',
+    name: 'The Sanctuary Bed',
+    category: 'Beds',
+    price: '₦14,000',
+    description: 'The centerpiece of the Master Suite Collection.',
+    details: 'An expansive king-sized bed with an integrated upholstered headboard.',
+    materials: 'Linen, Walnut, Brass detailing',
+    dimensions: { height: '110 cm', width: '220 cm', depth: '210 cm' },
+    images: ['https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&q=80&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Sanctuary'
+  },
+  {
+    id: 'c5',
+    slug: 'sanctuary-nightstand',
+    name: 'The Sanctuary Nightstand',
+    category: 'Tables',
+    price: '₦3,100',
+    description: 'Complementary storage for the bedroom.',
+    details: 'A minimalist bedside table with soft-close drawers and brass hardware.',
+    materials: 'Walnut, Brass',
+    dimensions: { height: '55 cm', width: '60 cm', depth: '45 cm' },
+    images: ['https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?auto=format&fit=crop&q=80&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Sanctuary'
+  },
+  {
+    id: 'c6',
+    slug: 'sanctuary-wardrobe',
+    name: 'The Sanctuary Wardrobe',
+    category: 'Wardrobes',
+    price: '₦18,500',
+    description: 'Architectural storage for the bedroom suite.',
+    details: 'Floor-to-ceiling cabinetry with integrated lighting and leather-wrapped handles.',
+    materials: 'Walnut, Leather, Glass',
+    dimensions: { height: '260 cm', width: '300 cm', depth: '65 cm' },
+    images: ['https://images.unsplash.com/photo-1623910271168-5e8cdb664fc8?auto=format&fit=crop&q=80&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Sanctuary'
+  },
+  {
+    id: 'c7',
+    slug: 'dining-monolith-table',
+    name: 'The Monolith Dining Table',
+    category: 'Tables',
+    price: '₦12,000',
+    description: 'The anchor of the Dining architecture.',
+    details: 'A monumental stone dining table that seats twelve comfortably.',
+    materials: 'Travertine, Blackened Matte Steel',
+    dimensions: { height: '76 cm', width: '320 cm', depth: '110 cm' },
+    images: ['https://images.unsplash.com/photo-1577140918692-788fa8a196b7?auto=format&fit=crop&q=80&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Dining'
+  },
+  {
+    id: 'c8',
+    slug: 'kitchen-island-cabinetry',
+    name: 'Atelier Kitchen Island & Cabinets',
+    category: 'Cabinets',
+    price: '₦28,000',
+    description: 'A full kitchen unit belonging to the Kitchen Space.',
+    details: 'Integrated countertops, matte black faucets, and continuous oak veneer cabinets.',
+    materials: 'Oak Veneer, Calacatta Marble, Matte Black Brass',
+    dimensions: { height: '95 cm', width: '400 cm', depth: '120 cm' },
+    images: ['https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Kitchen'
+  },
+  {
+    id: 'c9',
+    slug: 'study-executive-desk',
+    name: 'The Executive Desk',
+    category: 'Tables',
+    price: '₦9,800',
+    description: 'The profound centerpiece of the Study.',
+    details: 'A commanding desk crafted from ancient walnut, featuring hidden cable management and leather inlay.',
+    materials: 'Walnut, Leather, Burnished Brass',
+    dimensions: { height: '76 cm', width: '200 cm', depth: '100 cm' },
+    images: ['https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&q=80&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Study'
+  },
+  {
+    id: 'c10',
+    slug: 'cellar-sommelier-island',
+    name: 'The Sommelier\'s Island',
+    category: 'Tables',
+    price: '₦8,500',
+    description: 'The focal point of the Cellar.',
+    details: 'A standing tasting station with integrated chilling and a thick stone top.',
+    materials: 'Oak, Soapstone',
+    dimensions: { height: '105 cm', width: '180 cm', depth: '80 cm' },
+    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuDmqvr-vhWJR-vFcn0YfD8ItTnARePU5ufgSBuo6K3MDFFKNzUpX9yXKpzLuqlZxV5IubJyA8d3jF65RGCiVI5hDHmnHe0IpvErNq-lEso4zC8uufwPc07Tj9aj1owPWyqQ7x7DKqP0clYf5sFDZHJIbxm4wMnHXzz6ODrartBRL18rBmiyvnGhFJlgzg_toX2BwvRC4Sh2c8vkKYiToC3m-rm6dr6mVTaxEplXN0zKs7H9sgS_zqFw8Jx5FvEziN701V8vXR5Wvko'],
+    itemType: 'Collection',
+    collectionName: 'Cellar'
+  },
+  {
+    id: 'l1',
+    slug: 'living-green-atrium',
+    name: 'The Green Atrium Set',
+    category: 'Seating',
+    price: '₦12,500',
+    description: 'A masterpiece for the living space.',
+    details: 'Curated deep green seating built for a serene atmosphere.',
+    materials: 'Leather, Oak',
+    dimensions: { height: '90 cm', width: '220 cm', depth: '110 cm' },
+    images: ['https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&q=60&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Living'
+  },
+  {
+    id: 'l2',
+    slug: 'living-sunroom-modular',
+    name: 'The Sunroom Modular',
+    category: 'Seating',
+    price: '₦14,000',
+    description: 'Adaptable configurations for light-filled environments.',
+    details: 'Modular seating that can be rearranged for varying social interactions.',
+    materials: 'Linen, Aluminum',
+    dimensions: { height: '80 cm', width: '300 cm', depth: '200 cm' },
+    images: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=60&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Living'
+  },
+  {
+    id: 'l3',
+    slug: 'living-mid-century-chair',
+    name: 'Mid-Century Accent',
+    category: 'Seating',
+    price: '₦3,200',
+    description: 'A striking solitary piece.',
+    details: 'Perfect balance of vintage lines and modern comfort.',
+    materials: 'Walnut, Wool',
+    dimensions: { height: '85 cm', width: '70 cm', depth: '80 cm' },
+    images: ['https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?auto=format&fit=crop&q=60&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Living'
+  },
+  {
+    id: 'l4',
+    slug: 'living-velvet-sofa',
+    name: 'The Velvet Lounge',
+    category: 'Seating',
+    price: '₦11,000',
+    description: 'A cozy atmosphere enhancer.',
+    details: 'Luxurious velvet paired with deep seating for maximum relaxation.',
+    materials: 'Velvet, Brass',
+    dimensions: { height: '80 cm', width: '240 cm', depth: '100 cm' },
+    images: ['https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=60&w=800'],
+    itemType: 'Collection',
+    collectionName: 'Living'
   }
 ];

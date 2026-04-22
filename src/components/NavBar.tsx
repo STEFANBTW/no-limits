@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, ShoppingBag, User, Sun, Moon, ChevronRight } from 'lucide-react';
+import { Menu, X, Search, ShoppingBag, User, Sun, Moon, ChevronRight, MessageSquare } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -14,7 +14,8 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
   const location = useLocation();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isEstateOpen, setIsEstateOpen] = useState(false);
-  const { itemCount } = useCart();
+  const { itemCount, setIsCartOpen } = useCart();
+  const hasCart = itemCount > 0;
   const { user } = useAuth();
   
   const [isLightMode, setIsLightMode] = useState(() => {
@@ -77,19 +78,7 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
 
   return (
     <>
-      {/* Mobile Top Bar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-[80px] bg-theme-surface border-b border-theme-border z-50 flex items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-3">
-          <div className="w-8 h-8 border border-theme-border-strong rounded-full flex items-center justify-center">
-            <span className="material-symbols-outlined text-primary text-sm">chair</span>
-          </div>
-          <span className="font-serif font-bold tracking-[0.2em] uppercase text-sm text-theme-text">No Limits</span>
-        </Link>
-        <button onClick={() => setIsMobileOpen(true)} className="text-theme-icon">
-          <Menu size={24} />
-        </button>
-      </div>
-
+      {/* Mobile Top Bar implementation has been removed as per the "Humble Ground" specification. Instead, the trigger lives in the bottom-center dock. */}
       {/* Sidebar (Desktop & Mobile Drawer) */}
       <AnimatePresence>
         {(isMobileOpen || window.innerWidth >= 768) && (
@@ -122,10 +111,10 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
                   <span className="material-symbols-outlined text-primary text-4xl">chair</span>
                 </div>
                 {(!isCollapsed || isMobileOpen) && (
-                  <div className="flex flex-col items-center text-center overflow-hidden">
-                    <span className="font-serif font-bold tracking-[0.2em] uppercase text-lg leading-none text-theme-text whitespace-nowrap">No Limits</span>
-                    <span className="text-[0.6rem] font-sans tracking-[0.3em] text-theme-text-muted uppercase mt-2 whitespace-nowrap">Est. 2023</span>
-                  </div>
+            <div className="flex flex-col items-center text-center overflow-hidden">
+              <span className="font-serif font-bold tracking-[0.2em] uppercase text-lg leading-none text-theme-text whitespace-nowrap">No Limits</span>
+              <span className="text-[0.6rem] font-sans tracking-[0.3em] text-theme-text-muted uppercase mt-2 whitespace-nowrap">Est. 2023</span>
+            </div>
                 )}
               </Link>
             </div>
@@ -218,7 +207,7 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
                                 className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
                                 style={{ backgroundImage: `url(${item.image})` }}
                               />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent group-hover:opacity-100 transition-opacity" />
                               <div className="relative z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                                 <span className="text-primary text-[10px] tracking-[0.2em] uppercase mb-1 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                                   {item.label}
@@ -261,7 +250,7 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
                             <img 
                               src={item.image} 
                               alt={item.name} 
-                              className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" 
+                              className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-500" 
                               referrerPolicy="no-referrer"
                             />
                           </div>
@@ -307,6 +296,64 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
             onClick={() => setIsMobileOpen(false)}
             className="fixed inset-0 bg-theme-overlay z-40 md:hidden"
           />
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Bottom Dock (Unified Hamburger, Chat, and Cart) */}
+      <AnimatePresence>
+        {!isMobileOpen && (
+          <motion.div 
+            initial={{ y: 100, x: '-50%' }}
+            animate={{ y: 0, x: '-50%' }}
+            exit={{ y: 100, x: '-50%' }}
+            className="fixed bottom-6 left-1/2 z-[9990] md:hidden flex items-center gap-3"
+          >
+            {/* Hamburger Menu */}
+            <motion.button 
+              layout
+              onClick={() => setIsMobileOpen(true)} 
+              className="w-[42px] h-[42px] rounded-full bg-theme-base border border-theme-border shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col items-center justify-center gap-[4px] hover:scale-105 transition-transform"
+              aria-label="Open menu"
+            >
+              <div className="w-4 h-[1.5px] bg-theme-text rounded-full" />
+              <div className="w-[12px] h-[1.5px] bg-theme-text rounded-full mr-1" />
+            </motion.button>
+
+            {/* Chat Trigger */}
+            <motion.button
+              layout
+              onClick={() => window.dispatchEvent(new CustomEvent('open-chatbot'))}
+              className="relative w-[42px] h-[42px] rounded-full flex items-center justify-center bg-theme-panel border border-theme-border shadow-[0_12px_40px_rgba(0,0,0,0.4)] hover:scale-105 transition-transform"
+            >
+              {/* Spinning Halo */}
+              <motion.svg 
+                className="absolute inset-0 w-[140%] h-[140%] left-[-20%] top-[-20%] text-primary opacity-40 pointer-events-none"
+                viewBox="0 0 100 100"
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+              >
+                <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="100 214" strokeLinecap="round" />
+              </motion.svg>
+              <MessageSquare size={18} strokeWidth={1.5} className="text-primary" />
+            </motion.button>
+
+            {/* Cart Trigger */}
+            {hasCart && (
+              <motion.button
+                layout
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                onClick={() => setIsCartOpen && setIsCartOpen(true)}
+                className="bg-[#E8A843] text-black w-[42px] h-[42px] rounded-full shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex items-center justify-center hover:scale-105 transition-transform group border border-black/10 relative"
+              >
+                <ShoppingBag size={18} strokeWidth={2} />
+                <span className="absolute -top-1 -right-1 bg-theme-text text-theme-base border-2 border-[#E8A843] text-[9px] font-black w-[18px] h-[18px] rounded-full flex items-center justify-center shadow-xl">
+                  {itemCount}
+                </span>
+              </motion.button>
+            )}
+          </motion.div>
         )}
       </AnimatePresence>
     </>

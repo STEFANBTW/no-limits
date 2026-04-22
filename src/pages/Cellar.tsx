@@ -1,4 +1,6 @@
 import React from 'react';
+import CollectionSpotlight from '../components/CollectionSpotlight';
+import StartDialogueForm from '../components/StartDialogueForm';
 
 const Cellar = () => {
   return (
@@ -6,16 +8,16 @@ const Cellar = () => {
       <div className="layout-container flex h-full grow flex-col">
         <main className="flex-1 w-full">
           {/* Hero Section */}
-          <section className="min-h-[90vh] flex flex-col justify-center px-4 md:px-10 lg:px-40 py-10">
+          <section className="min-h-[100dvh] flex flex-col justify-center px-4 md:px-10 lg:px-40 py-10">
             <div className="max-w-[1200px] mx-auto w-full @container">
               <div 
-                className="flex min-h-[60vh] md:min-h-[75vh] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-center justify-center p-4 md:p-10 relative overflow-hidden" 
+                className="flex min-h-[85dvh] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-center justify-center p-4 md:p-10 relative overflow-hidden" 
                 data-alt="Dark subterranean wine cellar with stone table" 
                 style={{backgroundImage: "linear-gradient(rgba(34, 16, 19, 0.6) 0%, rgba(34, 16, 19, 0.8) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuDRPLICUP0OKuPLz2K4GJ5GpI-0tsV_pQzZUk7JPjnVYUOB3IvGob6vqInZs2BUbGP_xxSGPH5SwtMYTBKJAPpFTU8zNtjBllZZ_rXZo4-eipmVHZOnUnbwjWLoHNhYYHuOYR05ZNYmWmd0NkRTgrZejB0XhhyHlYyZXb-VvEbRPQKZnjEjCaXWo13WU6R8DCSfMeVPrpSehyOMLhDeiOuvz0Rn78CKUx1w9ofeuVS4CaLg8Vp1vsHK5d6UVLV_qeUqiedM3ddZFFM')"}}
               >
                 <div className="flex flex-col gap-4 text-center max-w-3xl z-10">
-                  <h1 className="text-theme-text text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em]">
-                    The Connoisseur's Cellar
+                  <h1 className="text-theme-text text-7xl md:text-9xl lg:text-[140px] font-serif italic leading-none tracking-tight">
+                    The Connoisseur's <br/> Cellar
                   </h1>
                   <p className="text-theme-text-muted/90 text-lg md:text-xl font-normal leading-relaxed max-w-xl mx-auto italic">
                     Curated heritage pieces for the ultimate subterranean tasting room. Where legacy meets lifestyle in deep oak and aged stone.
@@ -175,17 +177,12 @@ const Cellar = () => {
               </div>
             </div>
           </section>
-
-          {/* Footer Call to Action */}
-          <section className="py-20 px-4 border-t border-[#d41132]/20 bg-[#221013] text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Begin Your Cellar Commission</h2>
-            <p className="text-lg text-theme-text-subtle mb-8 max-w-xl mx-auto">Speak with our design team to start conceptualizing your bespoke subterranean space.</p>
-            <button className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-8 bg-[#d41132] text-white text-lg font-bold leading-normal tracking-[0.015em] mx-auto hover:bg-[#d41132]/90 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-[#d41132]/20">
-              Request Consultation
-            </button>
-          </section>
         </main>
       </div>
+
+      <CollectionSpotlight collectionName="Cellar" />
+      <StartDialogueForm />
+
       <style>{`
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
