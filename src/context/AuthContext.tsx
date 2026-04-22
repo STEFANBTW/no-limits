@@ -13,6 +13,7 @@ interface AuthContextType {
   signup: (name: string, email: string, password: string) => Promise<User>;
   logout: () => void;
   isAuthenticated: boolean;
+  getAllUsers: () => User[];
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -83,8 +84,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('nolimits_user');
   };
 
+  const getAllUsers = (): User[] => {
+    try {
+      const usersDb = JSON.parse(localStorage.getItem('nolimits_users_db') || '[]');
+      return usersDb;
+    } catch {
+      return [];
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, isAuthenticated: !!user, getAllUsers }}>
       {children}
     </AuthContext.Provider>
   );

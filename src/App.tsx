@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, useRoutes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, useRoutes, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { OrderProvider } from './context/OrderContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { ProductProvider } from './context/ProductContext';
+import { CollectionProvider } from './context/CollectionContext';
 
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -53,7 +54,8 @@ function AnimatedRoutes() {
         { path: '/signup', element: <Signup /> },
         { path: '/cart', element: <Cart /> },
         { path: '/checkout', element: <Checkout /> },
-        { path: '/dashboard', element: <UserDashboard /> },
+        { path: '/account', element: <UserDashboard /> },
+        { path: '/dashboard', element: <Navigate to="/account" replace /> },
       ],
     },
     { path: '/admin', element: <AdminDashboard /> },
@@ -68,16 +70,18 @@ export default function App() {
   return (
     <AuthProvider>
       <ProductProvider>
-        <CartProvider>
-          <OrderProvider>
-            <WishlistProvider>
-              <Router>
-                <ScrollToTop />
-                <AnimatedRoutes />
-              </Router>
-            </WishlistProvider>
-          </OrderProvider>
-        </CartProvider>
+        <CollectionProvider>
+          <CartProvider>
+            <OrderProvider>
+              <WishlistProvider>
+                <Router>
+                  <ScrollToTop />
+                  <AnimatedRoutes />
+                </Router>
+              </WishlistProvider>
+            </OrderProvider>
+          </CartProvider>
+        </CollectionProvider>
       </ProductProvider>
     </AuthProvider>
   );

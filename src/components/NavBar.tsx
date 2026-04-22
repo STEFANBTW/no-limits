@@ -270,7 +270,7 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
               <button onClick={toggleTheme} className="text-theme-text-muted hover:text-theme-text transition-colors" title="Toggle Theme">
                 {isLightMode ? <Moon size={20} /> : <Sun size={20} />}
               </button>
-              <Link to={user ? "/dashboard" : "/login"} onClick={() => setIsMobileOpen(false)} className="text-theme-text-muted hover:text-theme-text transition-colors">
+              <Link to={user ? (user.role === 'admin' ? '/admin' : '/account') : '/login'} onClick={() => setIsMobileOpen(false)} className="text-theme-text-muted hover:text-theme-text transition-colors">
                 <User size={20} />
               </Link>
               <Link to="/cart" onClick={() => setIsMobileOpen(false)} className="text-theme-text-muted hover:text-theme-text transition-colors relative">

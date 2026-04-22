@@ -428,18 +428,13 @@
   margin-bottom: 3.5rem;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - completely hidden */
 ::-webkit-scrollbar {
-  width: 6px;
+  display: none;
 }
-::-webkit-scrollbar-track {
-  background: #141615; 
-}
-::-webkit-scrollbar-thumb {
-  background: #333; 
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #FFA500; 
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .writing-vertical-lr {

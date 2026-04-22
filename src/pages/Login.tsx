@@ -40,7 +40,7 @@ const Login = () => {
         navigate(location.state.from.pathname, { replace: true });
       } else {
         // Otherwise use role to determine dashboard
-        navigate(loggedInUser.role === 'admin' ? '/admin' : '/dashboard', { replace: true });
+        navigate(loggedInUser.role === 'admin' ? '/admin' : '/account', { replace: true });
       }
     } catch (err: any) {
       setError(err.message || 'Failed to login');
@@ -62,48 +62,48 @@ const Login = () => {
             style={{ backgroundImage: `url(${backgrounds[currentBg]})` }}
           />
         </AnimatePresence>
-        <div className="absolute inset-0 bg-theme-overlay backdrop-blur-sm z-10"></div>
+        <div className="absolute inset-0 bg-theme-overlay z-10"></div>
       </div>
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-20 w-full max-w-md bg-[#141615]/90 border border-theme-border p-8 md:p-12 shadow-2xl backdrop-blur-md"
+        className="relative z-20 w-full max-w-md bg-theme-surface/70 md:bg-theme-surface/90 border border-theme-border p-5 md:p-10 shadow-2xl backdrop-blur-[10px] md:backdrop-blur-none max-h-[100dvh] overflow-hidden"
       >
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-block mb-6">
-            <span className="font-serif font-bold tracking-[0.2em] uppercase text-4xl text-theme-text">No Limits</span>
+        <div className="text-center mb-6 md:mb-8">
+          <Link to="/" className="inline-block mb-3 md:mb-4">
+            <span className="font-serif font-bold tracking-[0.2em] uppercase text-2xl md:text-3xl text-theme-text">No Limits</span>
           </Link>
-          <h2 className="text-xl font-serif italic text-theme-text mb-2">Welcome Back</h2>
-          <p className="text-xs text-theme-text-subtle uppercase tracking-widest">Sign in to access your account</p>
+          <h2 className="text-lg md:text-xl font-serif italic text-theme-text mb-1 md:mb-2 pt-2">Welcome Back</h2>
+          <p className="text-[10px] md:text-xs text-theme-text-subtle uppercase tracking-widest font-bold">Sign in to access your account</p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-900/20 border border-red-900/50 text-red-200 text-xs text-center">
+          <div className="mb-4 p-3 bg-red-900/20 border border-red-900/50 text-red-200 text-xs text-center">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest text-theme-text-subtle mb-2">Email Address</label>
+            <label className="block text-[10px] font-bold uppercase tracking-[0.1em] text-theme-text-subtle mb-2">Email Address</label>
             <input 
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-theme-base border border-theme-border p-4 text-theme-text focus:border-primary outline-none transition-colors"
+              className="w-full bg-theme-base border border-theme-border p-3 md:p-4 text-sm text-theme-text focus:border-primary outline-none transition-colors"
               placeholder="name@example.com"
               required
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest text-theme-text-subtle mb-2">Password</label>
+            <label className="block text-[10px] font-bold uppercase tracking-[0.1em] text-theme-text-subtle mb-2">Password</label>
             <div className="relative">
               <input 
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-theme-base border border-theme-border p-4 pr-12 text-theme-text focus:border-primary outline-none transition-colors"
+                className="w-full bg-theme-base border border-theme-border p-3 md:p-4 pr-12 text-sm text-theme-text focus:border-primary outline-none transition-colors"
                 placeholder="••••••••"
                 required
               />
@@ -111,50 +111,50 @@ const Login = () => {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-theme-text-subtle hover:text-theme-text transition-colors"
-                aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword ? <Unlock size={16} /> : <Lock size={16} />}
+                {showPassword ? <Unlock size={18} /> : <Lock size={18} />}
               </button>
             </div>
           </div>
           
-          <button 
-            type="submit" 
-            className="group relative w-full px-10 py-5 bg-primary text-theme-text overflow-hidden transition-all"
-          >
-            <div className="absolute inset-0 bg-theme-text -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-            <span className="relative z-10 font-sans text-[11px] font-bold tracking-[0.3em] uppercase group-hover:text-theme-base transition-colors duration-500">Sign In</span>
-          </button>
+          <div className="pt-2">
+            <button 
+              type="submit" 
+              className="w-full py-4 md:py-5 bg-theme-surface border border-theme-border text-theme-text font-bold uppercase tracking-[0.3em] text-[11px] hover:bg-primary hover:text-theme-text-inverse hover:border-primary transition-all duration-300"
+            >
+              Sign In
+            </button>
+          </div>
         </form>
 
-        <div className="mt-6 p-4 bg-theme-base/50 border border-theme-border text-[10px] text-theme-text-subtle text-center">
-          <p className="mb-2 font-bold uppercase tracking-widest text-theme-text">Demo Accounts</p>
-          <div className="flex justify-between items-center px-2">
+        <div className="mt-6 md:mt-8 p-4 md:p-6 bg-theme-base/50 border border-theme-border text-[10px] md:text-xs text-theme-text-subtle text-center">
+          <p className="mb-2 md:mb-3 font-bold uppercase tracking-widest text-theme-text">Demo Accounts</p>
+          <div className="flex justify-between items-center px-1 md:px-2">
             <span className="text-left w-1/2"><b>Admin:</b> admin@example.com</span>
             <span className="text-right w-1/2 italic">password123</span>
           </div>
-          <div className="flex justify-between items-center px-2 mt-1">
+          <div className="flex justify-between items-center px-1 md:px-2 mt-1 md:mt-2">
             <span className="text-left w-1/2"><b>User:</b> user@example.com</span>
             <span className="text-right w-1/2 italic">password123</span>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-theme-border">
-          <p className="text-center text-xs text-theme-text-subtle mb-6">Or continue with</p>
+        <div className="mt-8 md:mt-10 pt-6 md:pt-8 border-t border-theme-border">
+          <p className="text-center text-[10px] md:text-xs text-theme-text-subtle mb-4 uppercase tracking-widest font-bold">Or continue with</p>
           <div className="grid grid-cols-2 gap-4">
-            <button className="flex items-center justify-center gap-2 py-3 border border-theme-border hover:bg-white hover:text-theme-text-inverse transition-colors text-xs">
-              <span className="font-bold">Google</span>
+            <button className="flex items-center justify-center gap-2 py-2.5 md:py-3 border border-theme-border hover:bg-primary transition-colors text-[10px] uppercase tracking-widest">
+              Google
             </button>
-            <button className="flex items-center justify-center gap-2 py-3 border border-theme-border hover:bg-white hover:text-theme-text-inverse transition-colors text-xs">
-              <span className="font-bold">Apple</span>
+            <button className="flex items-center justify-center gap-2 py-2.5 md:py-3 border border-theme-border hover:bg-primary transition-colors text-[10px] uppercase tracking-widest">
+              Apple
             </button>
           </div>
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-xs text-theme-text-subtle">
+          <p className="text-[10px] md:text-sm text-theme-text-subtle">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-primary hover:underline">Sign Up</Link>
+            <Link to="/signup" className="text-primary hover:underline font-bold">Sign Up</Link>
           </p>
         </div>
       </motion.div>
