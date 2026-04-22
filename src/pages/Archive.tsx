@@ -245,9 +245,9 @@ const Archive = () => {
                 >
                   <div className="relative aspect-[3/4] overflow-hidden border border-theme-border bg-theme-base">
                     <img 
-                      src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=60&w=800" 
+                      src="https://res.cloudinary.com/dwo7oemds/image/upload/v1776879070/Copilot_20260422_183009_rfndtf.png" 
                       alt="Portrait of Lawrence Ngene" 
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" 
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                       referrerPolicy="no-referrer" loading="lazy"
                     />
                   </div>
