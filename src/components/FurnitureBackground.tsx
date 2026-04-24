@@ -29,13 +29,13 @@ const FurnitureIcon = ({ Icon, x, y, rotate, mouseX, mouseY, movementIntensity }
       if (delta < 0.001) return; // Save math cycles
       
       const isAppearing = targetVal > currentVal;
-      // 500ms fade in, 1100ms fade out
-      const baseDuration = isAppearing ? 0.5 : 1.1; 
+      // Snappy intake (0.2s), extremely fluid and slow decay (3.0s)
+      const baseDuration = isAppearing ? 0.2 : 3.0; 
       
       if (animRef.current) animRef.current.stop();
       animRef.current = animate(proximity, targetVal, {
         duration: Math.max(0.01, baseDuration * delta),
-        ease: "linear"
+        ease: isAppearing ? "circOut" : "easeInOut"
       });
     };
 
@@ -52,21 +52,18 @@ const FurnitureIcon = ({ Icon, x, y, rotate, mouseX, mouseY, movementIntensity }
     ([p, m]) => (p as number) * (m as number)
   );
 
-  // Match the exact accent color, but with a slightly lower max intensity so it doesn't overshadow the foreground forms
-  const color = useTransform(activeLevel, [0, 1], ["var(--theme-panel-furniture, #2a2a2a)", "var(--color-primary, #E8A843)"]);
-  const opacity = useTransform(activeLevel, [0, 1], [0.08, 0.85]); 
-  const scale = useTransform(activeLevel, [0, 1], [1, 1.5]); 
-  const glowOpacity = useTransform(activeLevel, [0.2, 1], [0, 0.4]); 
+  // Match the exact accent color
+  // Base opacity: 0.5 (as requested) but in a "difficult to see color" (dark gray)
+  const color = useTransform(activeLevel, [0, 1], ["var(--theme-panel-furniture, #1a1a1a)", "var(--color-primary, #E8A843)"]);
+  const opacity = useTransform(activeLevel, [0, 1], [0.5, 0.9]); 
+  const scale = useTransform(activeLevel, [0, 1], [1, 1.35]); 
+  const glowOpacity = useTransform(activeLevel, [0.4, 1], [0, 0.4]); 
 
   return (
     <motion.div
       ref={iconRef}
       className="absolute pointer-events-none z-0"
       style={{ left: `${x}%`, top: `${y}%`, rotate, scale, opacity }}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1 }}
     >
       <div className="relative">
          <motion.div style={{ color }} className="transition-colors duration-200">
@@ -90,11 +87,10 @@ const FurnitureIcon = ({ Icon, x, y, rotate, mouseX, mouseY, movementIntensity }
 export const FurnitureBackground = () => {
   const mouseX = useMotionValue(-1000);
   const mouseY = useMotionValue(-1000);
-  
   const movementIntensity = useMotionValue(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const globalAnimRef = useRef<any>(null);
-
+  
   useEffect(() => {
     const triggerIntensity = () => {
       const currentVal = movementIntensity.get();
@@ -103,24 +99,24 @@ export const FurnitureBackground = () => {
       if (delta > 0.001) {
         if (globalAnimRef.current) globalAnimRef.current.stop();
         globalAnimRef.current = animate(movementIntensity, 1, { 
-          duration: 0.5 * delta, 
-          ease: "linear" 
+          duration: 0.2 * delta, 
+          ease: "circOut" 
         });
       }
       
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       
-      // Initiate 1100ms fade out after a brief stay
+      // After 800ms of inactivity, fade out extremely slowly (5 seconds)
       timeoutRef.current = setTimeout(() => {
         const cVal = movementIntensity.get();
         if (cVal > 0.001) {
           if (globalAnimRef.current) globalAnimRef.current.stop();
           globalAnimRef.current = animate(movementIntensity, 0, { 
-            duration: 1.1 * cVal, 
-            ease: "linear" 
+            duration: 5.0 * cVal, 
+            ease: "easeInOut" 
           });
         }
-      }, 100); 
+      }, 800); 
     };
 
     const handleInputMove = (x: number, y: number) => {
