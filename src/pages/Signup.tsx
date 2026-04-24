@@ -29,11 +29,11 @@ const Signup = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md bg-theme-surface border border-theme-border p-8 md:p-12 shadow-2xl"
+        className="w-full max-w-md bg-theme-surface border border-theme-border p-5 md:p-10 shadow-2xl overflow-hidden max-h-[100dvh]"
       >
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-block mb-6">
-            <span className="font-serif font-bold tracking-[0.2em] uppercase text-4xl text-theme-text">No Limits</span>
+        <div className="text-center mb-6">
+          <Link to="/" className="inline-block mb-4">
+            <span className="font-serif font-bold tracking-[0.2em] uppercase text-3xl text-theme-text">No Limits</span>
           </Link>
           <h2 className="text-xl font-serif italic text-theme-text mb-2">Join the Atelier</h2>
           <p className="text-xs text-theme-text-subtle uppercase tracking-widest">Create an account to begin</p>
@@ -45,36 +45,36 @@ const Signup = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest text-theme-text-subtle mb-2">Full Name</label>
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+          <div className="space-y-1">
+            <label className="block text-[9px] font-bold uppercase tracking-widest text-theme-text-subtle">Full Name</label>
             <input 
               type="text" 
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-theme-base border border-theme-border p-4 text-theme-text focus:border-primary outline-none transition-colors"
+              className="w-full bg-theme-base border border-theme-border p-3 text-theme-text focus:border-primary outline-none transition-colors text-sm"
               placeholder="John Doe"
               required
             />
           </div>
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest text-theme-text-subtle mb-2">Email Address</label>
+          <div className="space-y-1">
+            <label className="block text-[9px] font-bold uppercase tracking-widest text-theme-text-subtle">Email Address</label>
             <input 
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-theme-base border border-theme-border p-4 text-theme-text focus:border-primary outline-none transition-colors"
+              className="w-full bg-theme-base border border-theme-border p-3 text-theme-text focus:border-primary outline-none transition-colors text-sm"
               placeholder="name@example.com"
               required
             />
           </div>
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest text-theme-text-subtle mb-2">Password</label>
+          <div className="space-y-1">
+            <label className="block text-[9px] font-bold uppercase tracking-widest text-theme-text-subtle">Password</label>
             <input 
               type="password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-theme-base border border-theme-border p-4 text-theme-text focus:border-primary outline-none transition-colors"
+              className="w-full bg-theme-base border border-theme-border p-3 text-theme-text focus:border-primary outline-none transition-colors text-sm"
               placeholder="••••••••"
               required
             />
@@ -82,27 +82,27 @@ const Signup = () => {
           
           <button 
             type="submit" 
-            className="group relative w-full px-10 py-5 bg-primary text-theme-text overflow-hidden transition-all"
+            className="group relative w-full px-8 py-3 bg-primary text-theme-text overflow-hidden transition-all"
           >
             <div className="absolute inset-0 bg-theme-text -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-            <span className="relative z-10 font-sans text-[11px] font-bold tracking-[0.3em] uppercase group-hover:text-theme-base transition-colors duration-500">Create Account</span>
+            <span className="relative z-10 font-sans text-[10px] font-bold tracking-[0.2em] uppercase group-hover:text-theme-base transition-colors duration-500">Create Account</span>
           </button>
         </form>
 
-        <div className="mt-8 pt-8 border-t border-theme-border">
-          <p className="text-center text-xs text-theme-text-subtle mb-6">Or continue with</p>
+        <div className="mt-6 pt-6 border-t border-theme-border">
+          <p className="text-center text-[10px] text-theme-text-subtle mb-4">Or continue with</p>
           <div className="grid grid-cols-2 gap-4">
-            <button className="flex items-center justify-center gap-2 py-3 border border-theme-border hover:bg-white hover:text-theme-text-inverse transition-colors text-xs">
+            <button className="flex items-center justify-center gap-2 py-2 border border-theme-border hover:bg-white hover:text-theme-text-inverse transition-colors text-[10px]">
               <span className="font-bold">Google</span>
             </button>
-            <button className="flex items-center justify-center gap-2 py-3 border border-theme-border hover:bg-white hover:text-theme-text-inverse transition-colors text-xs">
+            <button className="flex items-center justify-center gap-2 py-2 border border-theme-border hover:bg-white hover:text-theme-text-inverse transition-colors text-[10px]">
               <span className="font-bold">Apple</span>
             </button>
           </div>
         </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-xs text-theme-text-subtle">
+        <div className="mt-6 text-center">
+          <p className="text-[10px] text-theme-text-subtle">
             Already have an account?{' '}
             <Link to="/login" className="text-primary hover:underline">Sign In</Link>
           </p>

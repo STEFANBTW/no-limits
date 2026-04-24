@@ -74,144 +74,150 @@ export const CollectionsTab = ({ searchQuery = '' }: { searchQuery?: string }) =
   };
 
   return (
-    <div className="flex-1 p-0 sm:p-6 md:p-12 pt-20 sm:pt-24 md:pt-28 max-w-7xl mx-auto w-full overflow-y-auto">
-      {/* Page Header & Filters */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-6 px-4 sm:px-0 mt-4 sm:mt-0">
+    <div className="flex-1 overflow-y-auto animate-in fade-in duration-500">
+      {/* Page Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 bg-[var(--dash-bg-page)]/50 border-b border-[var(--dash-border-subtle)] p-5 md:p-8">
         <div className="max-w-2xl">
-          <h1 className="font-headline text-3xl md:text-5xl text-on-surface mb-2 md:mb-3 tracking-tight">Curated Worlds</h1>
-          <p className="font-body text-on-surface-variant text-sm md:text-base">Organize and manage the thematic collections presented across the digital gallery.</p>
+          <h1 className="dash-font-page-title font-serif italic text-[var(--dash-text-primary)] mb-2">Curated Realms</h1>
+          <p className="dash-font-body text-[var(--dash-text-muted)]">Architect and supervise the aesthetic taxonomies that define our digital landscape.</p>
         </div>
-        <div className="flex flex-wrap gap-3 w-full md:w-auto">
-          <button 
-            onClick={openAddModal}
-            className="bg-primary text-on-primary font-body font-semibold text-sm py-2 px-5 rounded-md hover:bg-primary/90 transition-colors shadow-sm flex items-center gap-2"
-          >
-            <span className="material-symbols-outlined text-[18px]">add</span>
-            Create Collection
-          </button>
-        </div>
+        <button 
+          onClick={openAddModal}
+          className="h-11 px-8 bg-[var(--dash-accent)] text-white dash-font-action font-bold uppercase tracking-widest hover:bg-[var(--dash-accent-hover)] transition-all flex items-center gap-3 active:scale-[0.98]"
+        >
+          <span className="material-symbols-outlined text-[18px]">add</span>
+          Manifest Domain
+        </button>
       </div>
 
-      {/* Content List */}
-      <div className="flex flex-col gap-[2px] w-full">
-        
+      {/* Collections Grid */}
+      <div className="px-5 md:px-8 pb-8 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
         {filteredCollections.map((collection, index) => (
-          <article key={collection.id} className="group bg-surface hover:bg-surface-container-low border border-outline-variant/10 rounded-md transition-all duration-300 flex p-3 pr-4 sm:pr-5 items-center gap-3 md:gap-6 w-full">
-            <div className="w-20 sm:w-24 md:w-32 lg:w-48 h-16 sm:h-20 md:h-24 bg-surface-container-lowest shrink-0 rounded-md sm:rounded-lg overflow-hidden relative">
-              <img src={collection.image} alt={collection.title} className="w-full h-full object-cover transition-all duration-500" referrerPolicy="no-referrer" />
+          <article key={collection.id} className="group bg-[var(--dash-bg-surface)] border border-[var(--dash-border-subtle)] hover:border-[var(--dash-accent)] transition-all duration-500 overflow-hidden flex flex-col">
+            <div className="relative aspect-video overflow-hidden bg-[var(--dash-bg-page)]">
+              <img src={collection.image} alt={collection.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--dash-bg-surface)] to-transparent"></div>
+              <div className="absolute bottom-6 left-6">
+                 <span className="text-[var(--dash-accent)] dash-font-card-title font-bold uppercase tracking-widest block mb-1">/{collection.slug}</span>
+                 <h3 className="dash-font-page-title font-serif italic text-[var(--dash-text-primary)]">{collection.title}</h3>
+              </div>
             </div>
              
-             <div className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-6">
-                <div className="min-w-0">
-                   <h3 className="font-headline text-lg md:text-xl text-on-surface truncate">{collection.title}</h3>
-                   <div className="flex items-center gap-3 mt-1">
-                     <span className="font-body text-xs md:text-sm text-on-surface-variant block truncate">{collection.description}</span>
-                   </div>
-                </div>
+             <div className="p-5 flex-1 flex flex-col">
+                <p className="dash-font-body text-[var(--dash-text-muted)] mb-8 line-clamp-2 leading-relaxed">{collection.description}</p>
                 
-                <div className="flex items-center gap-4 md:gap-8 justify-between md:justify-end mt-1 md:mt-0">
-                   <div className="text-left md:text-right hidden md:block">
-                      <div className="font-label text-[10px] text-secondary-fixed-dim uppercase mb-1 tracking-widest">{collection.productIds.length} Items</div>
-                      <div className="font-label font-medium text-primary text-sm md:text-base">/{collection.slug}</div>
+                <div className="mt-auto pt-6 border-t border-[var(--dash-border-subtle)] flex items-center justify-between">
+                   <div className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest">
+                     {collection.productIds.length} ARTIFACTS
                    </div>
                    
-                   <button onClick={() => openEditModal(collection)} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all text-on-surface shrink-0">
-                     <span className="material-symbols-outlined text-[16px] sm:text-[18px]">edit</span>
+                   <button 
+                     onClick={() => openEditModal(collection)} 
+                     className="h-10 w-10 border border-[var(--dash-border-subtle)] flex items-center justify-center hover:border-[var(--dash-accent)] hover:text-[var(--dash-accent)] transition-all"
+                   >
+                     <span className="material-symbols-outlined text-[18px]">edit</span>
                    </button>
                 </div>
              </div>
           </article>
         ))}
 
-        {/* Action/Empty State Card */}
-        <article onClick={openAddModal} className="group bg-surface border border-dashed border-outline-variant/20 rounded-md hover:border-primary/50 transition-all duration-300 flex items-center justify-center p-6 md:p-8 gap-4 cursor-pointer hover:bg-surface-container-high w-full mt-[2px]">
-           <span className="material-symbols-outlined text-primary text-[24px] md:text-[32px] group-hover:scale-110 transition-transform">add_circle</span>
-           <span className="font-headline text-lg md:text-xl text-on-surface">Create New Space</span>
-        </article>
+        {/* Empty State/Add Trigger */}
+        <button 
+          onClick={openAddModal}
+          className="group border border-dashed border-[var(--dash-border-subtle)] hover:border-[var(--dash-accent)] transition-all duration-500 flex flex-col items-center justify-center p-12 gap-4 text-[var(--dash-text-muted)] hover:bg-[var(--dash-accent-muted)]"
+        >
+           <span className="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform">add_circle</span>
+           <span className="dash-font-action font-bold uppercase tracking-widest group-hover:text-[var(--dash-accent)]">Open New Horizons</span>
+        </button>
       </div>
 
-      {/* Edit / Add Modal */}
+      {/* Modal Infrastructure */}
       {(editingCollection || isAdding) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#000000]/80 pb-0 pt-0">
-          <div className="bg-theme-surface border-0 md:border md:border-outline-variant/20 flex flex-col w-full h-[100dvh] md:h-[95vh] md:max-w-4xl md:rounded-none shadow-2xl relative overflow-hidden">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 px-4 md:px-0 animate-in fade-in duration-300">
+          <div className="bg-[var(--dash-bg-surface)] border border-[var(--dash-border-subtle)] w-full max-w-4xl max-h-[90vh] flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.8)] animate-in zoom-in-95 duration-300">
             
-            {/* Sticky Header */}
-            <div className="flex justify-between items-center p-4 md:p-6 border-b border-outline-variant/20 shrink-0 bg-theme-panel">
-               <h2 className="text-xl md:text-2xl font-headline text-on-surface m-0">
-                 {isAdding ? 'Create Collection' : 'Edit Collection'}
-               </h2>
-               <button 
-                 onClick={closeModals}
-                 className="text-on-surface-variant hover:text-error transition-colors flex items-center justify-center w-8 h-8 rounded-full hover:bg-surface-container-highest m-0 p-0"
-               >
-                 <span className="material-symbols-outlined text-[20px] m-0 p-0">close</span>
+            {/* Modal Header */}
+            <div className="flex justify-between items-center p-5 md:p-7 border-b border-[var(--dash-border-subtle)] bg-[var(--dash-bg-page)]/30">
+               <div>
+                 <span className="text-[var(--dash-accent)] dash-font-card-title font-bold uppercase tracking-widest mb-1 block">Logistics</span>
+                 <h2 className="dash-font-page-title font-serif italic text-[var(--dash-text-primary)]">
+                   {isAdding ? 'Manifest Domain' : 'Refine Domain Topology'}
+                 </h2>
+               </div>
+               <button onClick={closeModals} className="h-10 w-10 border border-[var(--dash-border-subtle)] flex items-center justify-center hover:border-[var(--dash-accent)] hover:text-[var(--dash-accent)] transition-all">
+                 <span className="material-symbols-outlined !text-[18px]">close</span>
                </button>
             </div>
 
-            {/* Scrollable Form Body */}
-            <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-4">
-              <form id="collection-form" onSubmit={handleSave} className="flex flex-col gap-3 md:gap-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                  <div className="flex flex-col gap-1 md:gap-2">
-                    <label className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold">Collection Title</label>
-                    <input required name="title" value={formData.title || ''} onChange={handleChange} className="bg-theme-base border border-transparent md:border-outline-variant/10 rounded-md text-on-surface font-body p-3 outline-none focus:border-primary transition-colors shadow-inner" />
+            {/* Scrollable Core */}
+            <div className="flex-1 overflow-y-auto p-5 md:p-7 space-y-7 selection:bg-[var(--dash-accent-muted)]">
+              <form id="collection-form" onSubmit={handleSave} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="space-y-3">
+                    <label className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest">Formal Title</label>
+                    <input required name="title" value={formData.title || ''} onChange={handleChange} className="w-full bg-[var(--dash-bg-page)] border border-[var(--dash-border-subtle)] h-12 px-5 dash-font-body outline-none focus:border-[var(--dash-accent)] transition-all placeholder:text-[var(--dash-text-muted)]/30" placeholder="e.g. Minimalist Sanctuary" />
                   </div>
-                  <div className="flex flex-col gap-1 md:gap-2">
-                    <label className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold">Slug (URL Route)</label>
-                    <input required name="slug" value={formData.slug || ''} onChange={handleChange} className="bg-theme-base border border-transparent md:border-outline-variant/10 rounded-md text-on-surface font-body p-3 outline-none focus:border-primary transition-colors shadow-inner" />
+                  <div className="space-y-3">
+                    <label className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest">Routing Identifier</label>
+                    <input required name="slug" value={formData.slug || ''} onChange={handleChange} className="w-full bg-[var(--dash-bg-page)] border border-[var(--dash-border-subtle)] h-12 px-5 dash-font-body outline-none focus:border-[var(--dash-accent)] transition-all font-mono" placeholder="slug-format" />
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1 md:gap-2">
-                  <label className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold">Hero Image URL</label>
-                  <div className="flex gap-2">
-                    <input required name="image" value={formData.image || ''} onChange={handleChange} className="bg-theme-base border border-transparent md:border-outline-variant/10 rounded-md text-on-surface font-body p-3 outline-none focus:border-primary transition-colors shadow-inner flex-1" />
-                    <button type="button" onClick={() => fileInputRef.current?.click()} className="px-4 py-3 bg-theme-base border border-outline-variant/20 hover:border-primary hover:text-primary transition-colors rounded-md font-label text-xs flex items-center justify-center shrink-0">
-                      Upload
+                <div className="space-y-3">
+                  <label className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest">Visual Asset URI</label>
+                  <div className="flex gap-4">
+                    <input required name="image" value={formData.image || ''} onChange={handleChange} className="flex-1 bg-[var(--dash-bg-page)] border border-[var(--dash-border-subtle)] h-12 px-5 dash-font-body outline-none focus:border-[var(--dash-accent)] transition-all" />
+                    <button type="button" onClick={() => fileInputRef.current?.click()} className="h-12 px-6 border border-[var(--dash-border-subtle)] dash-font-action font-bold uppercase tracking-widest hover:border-[var(--dash-accent)] hover:text-[var(--dash-accent)] transition-all whitespace-nowrap">
+                      Source
                     </button>
                     <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={handleImageUpload} />
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1 md:gap-2">
-                  <label className="text-[9px] text-on-surface-variant uppercase tracking-widest font-bold">Brief Description</label>
-                  <textarea required name="description" value={formData.description || ''} onChange={handleChange} className="bg-theme-base border border-transparent md:border-outline-variant/10 rounded-md text-on-surface font-body p-3 outline-none focus:border-primary transition-colors shadow-inner min-h-[60px]" />
+                <div className="space-y-3">
+                  <label className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest">Realm Narrative</label>
+                  <textarea required name="description" value={formData.description || ''} onChange={handleChange} className="w-full bg-[var(--dash-bg-page)] border border-[var(--dash-border-subtle)] p-5 dash-font-body outline-none focus:border-[var(--dash-accent)] transition-all min-h-[100px] leading-relaxed" placeholder="Detailed exposition of the collection's intent..." />
                 </div>
 
-                {/* Products Assignment */}
-                <div className="flex flex-col gap-2 pt-4 border-t border-outline-variant/10">
-                  <label className="text-[11px] text-on-surface font-headline uppercase tracking-widest font-bold mb-1">Assigned Products</label>
-                  <div className="flex flex-wrap gap-2">
+                {/* Sub-Resource Selection */}
+                <div className="pt-10 border-t border-[var(--dash-border-subtle)]">
+                  <label className="dash-font-body font-serif italic text-[var(--dash-text-primary)] mb-6 block">Target Artifacts</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {products.map(product => {
                       const isSelected = formData.productIds?.includes(product.id);
                       return (
                         <div 
                           key={product.id}
                           onClick={() => toggleProduct(product.id)}
-                          className={`flex items-center gap-3 p-2 rounded-lg border cursor-pointer transition-colors w-full sm:w-[calc(50%-0.25rem)] md:w-[calc(33.333%-0.333rem)] ${
-                            isSelected ? 'bg-primary/10 border-primary text-primary' : 'bg-theme-base border-outline-variant/10 text-on-surface-variant hover:border-outline-variant/30'
+                          className={`flex items-center gap-4 p-4 border cursor-pointer transition-all ${
+                            isSelected ? 'bg-[var(--dash-accent-muted)] border-[var(--dash-accent)] text-[var(--dash-text-primary)]' : 'bg-[var(--dash-bg-page)] border-[var(--dash-border-subtle)] text-[var(--dash-text-muted)] hover:border-[var(--dash-accent)]/50'
                           }`}
                         >
-                          <div className={`w-4 h-4 rounded border flex items-center justify-center ${isSelected ? 'border-primary bg-primary' : 'border-outline-variant/50'}`}>
-                            {isSelected && <span className="material-symbols-outlined text-[12px] text-on-primary">check</span>}
+                          <div className={`w-4 h-4 border flex items-center justify-center shrink-0 ${isSelected ? 'border-[var(--dash-accent)] bg-[var(--dash-accent)]' : 'border-[var(--dash-text-muted)]/30'}`}>
+                            {isSelected && <span className="material-symbols-outlined !text-[12px] text-white">check</span>}
                           </div>
-                          <div className="w-8 h-8 rounded bg-theme-surface shrink-0 overflow-hidden">
+                          <div className="w-10 h-10 bg-[var(--dash-bg-surface)] border border-[var(--dash-border-subtle)] overflow-hidden shrink-0">
                             <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
                           </div>
-                          <span className="font-body text-[10px] md:text-xs truncate flex-1">{product.name}</span>
+                          <span className="dash-font-card-title font-semibold truncate flex-1 uppercase tracking-tight">{product.name}</span>
                         </div>
                       )
                     })}
                   </div>
                 </div>
-
               </form>
             </div>
 
-            {/* Sticky Footer */}
-            <div className="p-4 md:p-6 border-t border-outline-variant/20 shrink-0 bg-theme-panel flex justify-end gap-3 md:gap-4">
-               <button type="button" onClick={closeModals} className="px-5 py-2.5 rounded font-label text-xs md:text-sm text-on-surface-variant hover:bg-theme-base transition-colors border border-transparent">Cancel</button>
-               <button type="submit" form="collection-form" className="px-5 md:px-8 py-2.5 rounded font-label font-bold text-xs md:text-sm bg-primary text-theme-text-inverse hover:bg-primary/90 transition-colors shadow-sm">Save Collection</button>
+            {/* Modal Actions */}
+            <div className="p-5 border-t border-[var(--dash-border-subtle)] bg-[var(--dash-bg-page)]/50 flex justify-end gap-3">
+               <button type="button" onClick={closeModals} className="px-8 py-3 dash-font-action font-bold uppercase tracking-widest text-[var(--dash-text-muted)] hover:text-[var(--dash-text-primary)] transition-all">Discard Changes</button>
+               <button 
+                 type="submit" form="collection-form" 
+                 className="px-10 py-3 bg-[var(--dash-accent)] text-white dash-font-action font-bold uppercase tracking-widest hover:bg-[var(--dash-accent-hover)] transition-all shadow-lg active:scale-[0.98]"
+               >
+                 Commit Form
+               </button>
             </div>
           </div>
         </div>

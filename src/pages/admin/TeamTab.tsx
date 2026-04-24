@@ -19,42 +19,42 @@ export const TeamTab = ({ searchQuery = '' }: { searchQuery?: string }) => {
   const customers = filteredUsers.filter((u) => u.role === 'user');
 
   return (
-    <div className="pt-28 pb-12 px-6 md:px-12 xl:px-24 flex-1 flex flex-col gap-16 max-w-[1600px] w-full mx-auto overflow-y-auto">
+    <div className="flex-1 overflow-y-auto animate-in fade-in duration-500">
       {/* Page Header */}
-      <header className="flex flex-col gap-2">
-        <h1 className="font-headline text-4xl lg:text-5xl text-on-surface tracking-tight">Team & Accounts</h1>
-        <p className="font-body text-on-surface-variant text-base max-w-2xl">Manage atelier access, review registered customers, and configure system activity.</p>
-      </header>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-3 bg-[var(--dash-bg-page)]/50 border-b border-[var(--dash-border-subtle)] p-4 md:p-6">
+        <div className="max-w-2xl">
+          <h1 className="dash-font-page-title font-serif italic text-[var(--dash-text-primary)] mb-1">Directorate & Personnel</h1>
+          <p className="dash-font-body text-[var(--dash-text-muted)]">Monitor organizational access, review client telemetry, and supervise systemic integrity.</p>
+        </div>
+      </div>
+
+      <div className="px-4 md:px-6 pb-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column (Users List) */}
-        <div className="lg:col-span-8 flex flex-col gap-12">
+        <div className="lg:col-span-8 space-y-8">
           
           {/* Admin Team Grid */}
-          <section className="bg-surface-container rounded-xl p-6 lg:p-8 flex flex-col gap-8 shadow-lg border border-outline-variant/10">
-            <div className="flex justify-between items-end border-b border-outline-variant/10 pb-4">
-              <div>
-                <h2 className="font-headline text-2xl text-on-surface flex items-center gap-3">
-                  <span className="material-symbols-outlined text-primary">shield_person</span>
-                  Administrators
+          <section className="bg-[var(--dash-bg-surface)] border border-[var(--dash-border-subtle)] overflow-hidden">
+            <div className="p-5 border-b border-[var(--dash-border-subtle)] bg-[var(--dash-bg-page)]/30 flex justify-between items-center">
+                <h2 className="dash-font-section-title font-serif italic text-[var(--dash-text-primary)] flex items-center gap-3">
+                  <span className="material-symbols-outlined text-[var(--dash-accent)] !text-[20px]">verified_user</span>
+                  Administrative Directorate
                 </h2>
-                <p className="font-body text-sm text-on-surface-variant mt-1">Staff with full access to the CMS.</p>
-              </div>
+                <span className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest">{admins.length} Staff</span>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
               {admins.map((user) => (
-                <div key={user.id} className="bg-surface-container-low p-5 rounded-lg flex flex-col gap-4 border border-outline-variant/10 hover:border-primary/30 transition-colors">
-                  <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 rounded-full bg-surface-dim flex items-center justify-center text-on-surface font-headline text-xl border border-outline-variant/20">
+                <div key={user.id} className="bg-[var(--dash-bg-page)] border border-[var(--dash-border-subtle)] p-3 hover:border-[var(--dash-accent)] transition-all group">
+                  <div className="flex items-center gap-3">
+                     <div className="w-10 h-10 bg-[var(--dash-accent-muted)] border border-[var(--dash-accent)]/20 flex items-center justify-center text-[var(--dash-accent)] font-serif italic text-lg">
                       {user.name.charAt(0).toUpperCase()}
                     </div>
-                    <div className="flex flex-col">
-                      <span className="font-body font-medium text-on-surface">{user.name}</span>
-                      <span className="font-label text-xs text-primary tracking-widest uppercase">{user.role}</span>
+                    <div className="min-w-0">
+                      <span className="dash-font-body font-semibold text-[var(--dash-text-primary)] block truncate leading-tight">{user.name}</span>
+                      <span className="dash-font-card-title text-[var(--dash-accent)] font-bold tracking-widest uppercase leading-tight">{user.role}</span>
                     </div>
                   </div>
-                  <div className="pt-3 border-t border-outline-variant/10 font-mono text-xs text-on-surface-variant">
+                  <div className="mt-3 pt-3 border-t border-[var(--dash-border-subtle)] dash-font-card-title font-mono text-[var(--dash-text-muted)] truncate group-hover:text-[var(--dash-text-primary)] transition-colors">
                     {user.email}
                   </div>
                 </div>
@@ -63,63 +63,74 @@ export const TeamTab = ({ searchQuery = '' }: { searchQuery?: string }) => {
           </section>
 
           {/* Customers List */}
-          <section className="bg-surface-container rounded-xl p-6 lg:p-8 flex flex-col gap-8 shadow-lg border border-outline-variant/10">
-            <div className="flex justify-between items-end border-b border-outline-variant/10 pb-4">
-              <div>
-                <h2 className="font-headline text-2xl text-on-surface flex items-center gap-3">
-                  <span className="material-symbols-outlined text-on-surface-variant">group</span>
-                  Registered Customers
+          <section className="bg-[var(--dash-bg-surface)] border border-[var(--dash-border-subtle)] overflow-hidden">
+            <div className="p-5 border-b border-[var(--dash-border-subtle)] bg-[var(--dash-bg-page)]/30 flex justify-between items-center">
+                <h2 className="dash-font-section-title font-serif italic text-[var(--dash-text-primary)] flex items-center gap-3">
+                  <span className="material-symbols-outlined text-[var(--dash-text-muted)] !text-[20px]">fingerprint</span>
+                  Client Registry
                 </h2>
-              </div>
-              <span className="text-sm font-label uppercase tracking-widest text-on-surface-variant">{customers.length} Accounts</span>
+                <span className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest">{customers.length} Entries</span>
             </div>
             
-            <div className="flex flex-col gap-0 border border-outline-variant/10 rounded-md overflow-hidden bg-surface-container-low">
+            <div className="divide-y divide-[var(--dash-border-subtle)]">
               {customers.map((user, idx) => (
-               <div key={user.id} className={`group flex justify-between items-center p-4 bg-surface hover:bg-surface-container-high transition-colors ${idx !== customers.length - 1 ? 'border-b border-outline-variant/10' : ''}`}>
-                 <div className="flex items-center gap-4">
-                   <div className="flex flex-col">
-                     <span className="font-body text-on-surface font-medium">{user.name}</span>
-                     <span className="font-label text-xs text-on-surface-variant tracking-wider">{user.email}</span>
+               <div key={user.id} className="group grid grid-cols-12 gap-3 items-center p-4 bg-[var(--dash-bg-surface)] hover:bg-[var(--dash-bg-page)] transition-all">
+                 <div className="col-span-12 md:col-span-8 flex items-center gap-4">
+                   <div className="w-10 h-10 bg-[var(--dash-bg-page)] border border-[var(--dash-border-subtle)] flex items-center justify-center text-[var(--dash-text-muted)] font-mono text-sm">
+                     {idx + 1}
+                   </div>
+                   <div className="min-w-0">
+                     <span className="dash-font-body font-semibold text-[var(--dash-text-primary)] block">{user.name}</span>
+                     <span className="dash-font-card-title text-[var(--dash-text-muted)] font-mono tracking-tight">{user.email}</span>
                    </div>
                  </div>
-                 <div className="font-mono text-xs text-on-surface-variant opacity-50 group-hover:opacity-100 transition-opacity">
-                   ID: {user.id}
+                 <div className="col-span-12 md:col-span-4 text-right hidden md:block">
+                   <div className="dash-font-card-title font-mono text-[var(--dash-text-muted)] opacity-40 group-hover:opacity-100 transition-opacity">
+                     UID: {user.id.slice(0, 16)}
+                   </div>
                  </div>
                </div>
               ))}
               {customers.length === 0 && (
-                <p className="text-sm font-body text-on-surface-variant text-center py-6">No customers registered yet.</p>
+                <div className="p-12 text-center text-[var(--dash-text-muted)] italic dash-font-body">
+                   No client records detected within the secure buffer.
+                </div>
               )}
             </div>
           </section>
         </div>
 
-        {/* Right Column (Logs & Stats) */}
-        <div className="lg:col-span-4 flex flex-col gap-12">
-          <section className="bg-surface-container-low rounded-xl p-8 border border-outline-variant/10">
-            <h2 className="font-headline text-xl text-on-surface mb-6 flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary text-lg">monitoring</span>
-              Directory Stats
+        {/* Right Column (Stats) */}
+        <div className="lg:col-span-4">
+          <section className="bg-[var(--dash-bg-surface)] border border-[var(--dash-border-subtle)] p-5">
+            <h2 className="dash-font-body font-bold uppercase tracking-widest text-[var(--dash-accent)] mb-8 flex items-center gap-3">
+              <span className="material-symbols-outlined !text-[18px]">analytics</span>
+              Directory Statistics
             </h2>
-            <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between pb-4 border-b border-outline-variant/10">
-                <div className="flex flex-col">
-                  <span className="font-body text-sm text-on-surface">Total Accounts</span>
-                  <span className="font-label text-xs text-on-surface-variant mt-0.5">Across all roles</span>
+            <div className="space-y-8">
+              <div className="flex items-end justify-between">
+                <div>
+                  <span className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest block mb-1">Total Identities</span>
+                  <p className="dash-font-body text-[var(--dash-text-muted)]">Verified across all sectors</p>
                 </div>
-                <span className="font-headline text-3xl text-on-surface">{users.length}</span>
+                <span className="dash-font-page-title font-serif italic text-[var(--dash-text-primary)] leading-none">{users.length}</span>
               </div>
               
-              <div className="space-y-4">
-                <div className="bg-surface-container p-4 rounded border border-outline-variant/5 flex justify-between items-center">
-                  <span className="text-sm font-body text-on-surface-variant">Administrative</span>
-                  <span className="font-mono text-primary">{admins.length}</span>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-[var(--dash-bg-page)] border border-[var(--dash-border-subtle)] p-4">
+                  <span className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest block mb-2">Directorate</span>
+                  <span className="dash-font-section-title font-semibold text-[var(--dash-accent)]">{admins.length}</span>
                 </div>
-                <div className="bg-surface-container p-4 rounded border border-outline-variant/5 flex justify-between items-center">
-                  <span className="text-sm font-body text-on-surface-variant">Standard</span>
-                  <span className="font-mono text-on-surface">{customers.length}</span>
+                <div className="bg-[var(--dash-bg-page)] border border-[var(--dash-border-subtle)] p-4">
+                  <span className="dash-font-card-title text-[var(--dash-text-muted)] font-bold uppercase tracking-widest block mb-2">Standard</span>
+                  <span className="dash-font-section-title font-semibold text-[var(--dash-text-primary)]">{customers.length}</span>
                 </div>
+              </div>
+
+              <div className="pt-8 border-t border-[var(--dash-border-subtle)]">
+                 <div className="p-4 bg-[var(--dash-accent-muted)] border border-[var(--dash-accent)]/20 dash-font-card-title text-[var(--dash-accent)] italic">
+                   System integrity verified. Automated redundancy backups are synchronized with the primary node.
+                 </div>
               </div>
             </div>
           </section>

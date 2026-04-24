@@ -68,13 +68,13 @@ const Login = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-20 w-full max-w-md bg-theme-surface/70 md:bg-theme-surface/90 border border-theme-border p-5 md:p-10 shadow-2xl backdrop-blur-[10px] md:backdrop-blur-none max-h-[100dvh] overflow-hidden"
+        className="relative z-20 w-full max-w-md bg-theme-surface/70 md:bg-theme-surface/90 border border-theme-border p-5 md:p-8 shadow-2xl backdrop-blur-[10px] md:backdrop-blur-none max-h-[100dvh] overflow-hidden"
       >
-        <div className="text-center mb-6 md:mb-8">
-          <Link to="/" className="inline-block mb-3 md:mb-4">
+        <div className="text-center mb-4 md:mb-6">
+          <Link to="/" className="inline-block mb-2 md:mb-3">
             <span className="font-serif font-bold tracking-[0.2em] uppercase text-2xl md:text-3xl text-theme-text">No Limits</span>
           </Link>
-          <h2 className="text-lg md:text-xl font-serif italic text-theme-text mb-1 md:mb-2 pt-2">Welcome Back</h2>
+          <h2 className="text-lg md:text-xl font-serif italic text-theme-text mb-1 pt-2">Welcome Back</h2>
           <p className="text-[10px] md:text-xs text-theme-text-subtle uppercase tracking-widest font-bold">Sign in to access your account</p>
         </div>
 
@@ -84,7 +84,7 @@ const Login = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
           <div>
             <label className="block text-[10px] font-bold uppercase tracking-[0.1em] text-theme-text-subtle mb-2">Email Address</label>
             <input 
@@ -117,42 +117,42 @@ const Login = () => {
             </div>
           </div>
           
-          <div className="pt-2">
+          <div className="">
             <button 
               type="submit" 
-              className="w-full py-4 md:py-5 bg-theme-surface border border-theme-border text-theme-text font-bold uppercase tracking-[0.3em] text-[11px] hover:bg-primary hover:text-theme-text-inverse hover:border-primary transition-all duration-300"
+              className="w-full py-3 md:py-4 bg-theme-surface border border-theme-border text-theme-text font-bold uppercase tracking-[0.3em] text-[11px] hover:bg-primary hover:text-theme-text-inverse hover:border-primary transition-all duration-300"
             >
               Sign In
             </button>
           </div>
         </form>
 
-        <div className="mt-6 md:mt-8 p-4 md:p-6 bg-theme-base/50 border border-theme-border text-[10px] md:text-xs text-theme-text-subtle text-center">
-          <p className="mb-2 md:mb-3 font-bold uppercase tracking-widest text-theme-text">Demo Accounts</p>
+        <div className="mt-3 md:mt-4 p-3 md:p-4 bg-theme-base/50 border border-theme-border text-[10px] md:text-xs text-theme-text-subtle text-center">
+          <p className="mb-1 font-bold uppercase tracking-widest text-theme-text">Demo Accounts</p>
           <div className="flex justify-between items-center px-1 md:px-2">
             <span className="text-left w-1/2"><b>Admin:</b> admin@example.com</span>
             <span className="text-right w-1/2 italic">password123</span>
           </div>
-          <div className="flex justify-between items-center px-1 md:px-2 mt-1 md:mt-2">
+          <div className="flex justify-between items-center px-1 md:px-2 mt-1 md:mt-1.5">
             <span className="text-left w-1/2"><b>User:</b> user@example.com</span>
             <span className="text-right w-1/2 italic">password123</span>
           </div>
         </div>
 
-        <div className="mt-8 md:mt-10 pt-6 md:pt-8 border-t border-theme-border">
-          <p className="text-center text-[10px] md:text-xs text-theme-text-subtle mb-4 uppercase tracking-widest font-bold">Or continue with</p>
-          <div className="grid grid-cols-2 gap-4">
-            <button className="flex items-center justify-center gap-2 py-2.5 md:py-3 border border-theme-border hover:bg-primary transition-colors text-[10px] uppercase tracking-widest">
+        <div className="mt-4 md:mt-5 pt-3 md:pt-4 border-t border-theme-border">
+          <p className="text-center text-[10px] md:text-xs text-theme-text-subtle mb-2 uppercase tracking-widest font-bold">Or continue with</p>
+          <div className="grid grid-cols-2 gap-3">
+            <button className="flex items-center justify-center gap-2 py-2 md:py-2.5 border border-theme-border hover:bg-primary transition-colors text-[10px] uppercase tracking-widest">
               Google
             </button>
-            <button className="flex items-center justify-center gap-2 py-2.5 md:py-3 border border-theme-border hover:bg-primary transition-colors text-[10px] uppercase tracking-widest">
+            <button className="flex items-center justify-center gap-2 py-2 md:py-2.5 border border-theme-border hover:bg-primary transition-colors text-[10px] uppercase tracking-widest">
               Apple
             </button>
           </div>
         </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-[10px] md:text-sm text-theme-text-subtle">
+        <div className="mt-4 text-center">
+          <p className="text-[10px] md:text-[13px] text-theme-text-subtle">
             Don't have an account?{' '}
             <Link to="/signup" className="text-primary hover:underline font-bold">Sign Up</Link>
           </p>

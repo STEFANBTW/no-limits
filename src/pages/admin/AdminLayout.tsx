@@ -23,65 +23,63 @@ export const AdminLayout = ({ children, activeTab, setActiveTab, searchQuery, se
   ];
 
   return (
-    <div className="min-h-screen flex selection:bg-primary-container selection:text-on-primary-container font-body antialiased bg-surface-container-lowest text-on-surface">
+    <div className="min-h-screen flex selection:bg-[var(--dash-accent-muted)] selection:text-[var(--dash-text-primary)] font-body antialiased bg-[var(--dash-bg-page)] text-[var(--dash-text-primary)]">
       {/* Mobile Sidebar Overlay */}
       {isMobileMenuOpen && (
          <div 
            onClick={() => setIsMobileMenuOpen(false)} 
-           className="fixed inset-0 bg-[#000000]/60 z-40 md:hidden" 
+           className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm" 
          />
       )}
 
       {/* SideNavBar */}
-      <nav className={`h-[100dvh] max-h-screen w-64 fixed left-0 top-0 z-50 bg-theme-surface md:bg-transparent flex flex-col py-4 md:py-6 gap-2 md:gap-4 font-headline tracking-tight text-lg overflow-y-auto transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'}`}>
-        <div className="px-4 md:px-6 mb-2">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden">
-              <span className="material-symbols-outlined text-primary text-base">architecture</span>
-            </div>
-            <h1 className="text-lg md:text-xl italic text-on-surface mt-[30px] mb-[5px]">No Limits CMS</h1>
+      <nav className={`h-screen w-[260px] fixed left-0 top-0 z-50 bg-[var(--dash-bg-surface)] flex flex-col pt-6 pb-16 gap-4 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'}`}>
+        <div className="px-6 mb-2">
+          <div className="flex items-center gap-3 mb-1">
+            <span className="material-symbols-outlined text-[var(--dash-accent)] text-2xl">architecture</span>
+            <h1 className="dash-font-brand uppercase tracking-widest font-serif italic text-[var(--dash-text-primary)]">No Limits CMS</h1>
           </div>
-          <p className="text-[10px] md:text-xs font-label text-on-surface-variant uppercase tracking-widest pl-8 mb-[15px]">Digital Atelier</p>
+          <p className="dash-font-card-title text-[var(--dash-text-muted)] uppercase tracking-[0.2em] font-medium opacity-60">Digital Atelier</p>
         </div>
 
-        <div className="px-4 md:px-6 mb-2">
-          <button className="w-full py-2.5 px-4 rounded-none border border-outline-variant/20 bg-gradient-to-br from-primary to-primary-container text-theme-text-inverse font-label text-xs md:text-sm font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-            <span className="material-symbols-outlined text-sm text-theme-text-inverse">add</span>
-            New Commission
+        <div className="px-6 mb-2">
+          <button className="w-full h-11 bg-[var(--dash-accent)] text-white dash-font-action font-medium flex items-center justify-center gap-2 hover:bg-[var(--dash-accent-hover)] transition-all ease-out duration-200">
+            <span className="material-symbols-outlined text-lg">add</span>
+            Initiate Vision
           </button>
         </div>
 
-        <ul className="flex flex-col flex-1 mt-1 gap-[2px] px-3 md:px-4">
+        <ul className="flex flex-col flex-1">
           {navItems.map((item) => {
             const isActive = activeTab === item.id;
             return (
               <li key={item.id}>
                 <button 
                   onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); }}
-                  className={`w-full text-left pl-4 py-3 flex items-center gap-4 transition-all duration-300 mx-auto rounded-none border border-outline-variant/15 ${
-                    isActive ? 'text-primary font-semibold border-l-[3px] border-l-primary bg-surface-container-highest' : 'text-on-surface-variant hover:bg-surface-container-highest hover:text-primary'
+                  className={`w-full text-left px-6 py-3 flex items-center gap-4 transition-all duration-200 ${
+                    isActive ? 'bg-[var(--dash-accent-muted)] text-[var(--dash-accent)] font-semibold' : 'text-[var(--dash-text-muted)] hover:bg-[var(--dash-bg-page)] hover:text-[var(--dash-text-primary)]'
                   }`}
                 >
-                  <span className={`material-symbols-outlined ${isActive ? 'fill' : ''}`}>{item.icon}</span>
-                  <span className="font-body text-base">{item.label}</span>
+                  <span className={`material-symbols-outlined !text-[26px] ${isActive ? 'fill' : ''}`}>{item.icon}</span>
+                  <span className="dash-font-action">{item.label}</span>
                 </button>
               </li>
             );
           })}
         </ul>
 
-        <div className="mt-auto px-3 md:px-4 pb-4">
-          <ul className="flex flex-col border-t border-outline-variant/15 pt-4 gap-[2px]">
+        <div className="mt-auto mb-4 px-6 border-t border-[var(--dash-border-subtle)] pt-4">
+          <ul className="flex flex-col gap-1">
             <li>
-               <button className="w-full mx-auto text-left text-on-surface-variant pl-4 py-3 flex items-center gap-4 hover:bg-surface-container-highest hover:text-primary transition-all duration-300 rounded-none border border-outline-variant/15">
-                <span className="material-symbols-outlined">settings</span>
-                <span className="font-body text-base">Settings</span>
+               <button className="w-full text-left text-[var(--dash-text-muted)] py-2 flex items-center gap-4 hover:text-[var(--dash-text-primary)] transition-all duration-200 group">
+                <span className="material-symbols-outlined !text-[26px] opacity-60 group-hover:opacity-100">settings</span>
+                <span className="dash-font-action">Settings</span>
               </button>
             </li>
             <li>
-              <button onClick={handleLogout} className="w-full mx-auto text-left text-on-surface-variant pl-4 py-3 flex items-center gap-4 hover:bg-surface-container-highest hover:text-error transition-all duration-300 rounded-none border border-outline-variant/15">
-                <span className="material-symbols-outlined">logout</span>
-                <span className="font-body text-base">Sign Out</span>
+              <button onClick={handleLogout} className="w-full text-left text-[var(--dash-text-muted)] py-2 flex items-center gap-4 hover:text-red-500 transition-all duration-200 group">
+                <span className="material-symbols-outlined !text-[26px] opacity-60 group-hover:opacity-100">logout</span>
+                <span className="dash-font-action">Sign Out</span>
               </button>
             </li>
           </ul>
@@ -89,20 +87,20 @@ export const AdminLayout = ({ children, activeTab, setActiveTab, searchQuery, se
       </nav>
 
       {/* Main Content Arena */}
-      <main className="flex-1 md:ml-64 flex flex-col min-h-screen relative bg-surface-container-lowest overflow-x-hidden max-w-[100vw]">
+      <main className="flex-1 md:ml-[260px] flex flex-col min-h-screen relative bg-[var(--dash-bg-page)] max-w-full">
         {/* TopNavBar */}
-        <header className="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-30 bg-surface-container-lowest/80 backdrop-blur-[10px] text-primary font-body font-medium uppercase tracking-widest text-xs flex justify-between items-center h-16 md:h-20 px-4 md:px-12 border-b border-outline-variant/5">
+        <header className="sticky top-0 z-40 bg-[var(--dash-bg-surface)]/90 backdrop-blur-md text-[var(--dash-text-primary)] font-body h-16 md:h-[64px] px-6 md:px-8 flex justify-between items-center">
           <div className="flex items-center gap-4 flex-1">
-            <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden text-on-surface hover:text-primary transition-colors flex items-center justify-center p-2">
-              <span className="material-symbols-outlined text-2xl">menu</span>
+            <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden text-[var(--dash-text-primary)] hover:text-[var(--dash-accent)] transition-colors p-2">
+              <span className="material-symbols-outlined">menu</span>
             </button>
             
             {/* Desktop Search */}
-            <div className="hidden md:flex items-center bg-surface-container-highest rounded-md px-4 py-2 w-64 border-b border-outline-variant/40 focus-within:border-primary transition-all group">
-              <span className="material-symbols-outlined text-secondary-fixed-dim mr-3 group-focus-within:text-primary">search</span>
+            <div className="hidden md:flex items-center bg-[var(--dash-bg-page)] rounded-full px-4 h-10 w-80 focus-within:ring-1 focus-within:ring-[var(--dash-accent)] transition-all group">
+              <span className="material-symbols-outlined text-[var(--dash-text-muted)] mr-3 group-focus-within:text-[var(--dash-accent)] !text-[20px]">search</span>
               <input 
-                className="bg-transparent border-none outline-none text-on-surface w-full placeholder-on-surface-variant font-body normal-case tracking-normal text-sm" 
-                placeholder="Search anything..." 
+                className="bg-transparent border-none outline-none text-[var(--dash-text-primary)] w-full placeholder-[var(--dash-text-muted)] dash-font-body" 
+                placeholder="Search resources..." 
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -111,57 +109,57 @@ export const AdminLayout = ({ children, activeTab, setActiveTab, searchQuery, se
 
             {/* Mobile Expanded Search */}
             {isSearchExpanded && (
-              <div className="md:hidden absolute left-0 top-0 w-full h-full bg-surface-container-lowest flex items-center px-4 animate-in slide-in-from-top duration-300">
-                <div className="flex items-center bg-surface-container-highest rounded-md px-3 py-1.5 w-full border border-primary/20">
-                  <span className="material-symbols-outlined text-primary mr-2">search</span>
+              <div className="md:hidden absolute left-0 top-0 w-full h-full bg-[var(--dash-bg-surface)] z-50 flex items-center px-4">
+                <div className="flex items-center bg-[var(--dash-bg-page)] rounded-lg h-10 w-full border border-[var(--dash-accent)] px-3">
+                  <span className="material-symbols-outlined text-[var(--dash-accent)] mr-2 !text-[20px]">search</span>
                   <input 
                     autoFocus
-                    className="bg-transparent border-none outline-none text-on-surface w-full placeholder-on-surface-variant font-body normal-case tracking-normal text-sm" 
-                    placeholder="Search anything..." 
+                    className="bg-transparent border-none outline-none text-[var(--dash-text-primary)] w-full placeholder-[var(--dash-text-muted)] dash-font-body" 
+                    placeholder="Search..." 
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                  <button onClick={() => { setIsSearchExpanded(false); setSearchQuery(''); }} className="ml-2 text-on-surface-variant hover:text-error transition-colors">
-                    <span className="material-symbols-outlined">close</span>
+                  <button onClick={() => { setIsSearchExpanded(false); setSearchQuery(''); }} className="ml-2 text-[var(--dash-text-muted)]">
+                    <span className="material-symbols-outlined !text-[20px]">close</span>
                   </button>
                 </div>
               </div>
             )}
           </div>
 
-          <div className="flex items-center gap-4 md:gap-8">
-            {/* Mobile Search Toggle Icon */}
+          <div className="flex items-center gap-3 md:gap-6">
             {!isSearchExpanded && (
               <button 
                 onClick={() => setIsSearchExpanded(true)}
-                className="md:hidden text-on-surface-variant hover:text-primary transition-colors p-2"
+                className="md:hidden text-[var(--dash-text-muted)] hover:text-[var(--dash-accent)] p-2"
               >
-                <span className="material-symbols-outlined text-2xl">search</span>
+                <span className="material-symbols-outlined !text-[24px]">search</span>
               </button>
             )}
 
-            <span className="hidden lg:block text-on-surface-variant">No Limits Furniture</span>
-            <div className="w-px h-6 bg-surface-container-highest hidden lg:block"></div>
-            <div className="flex items-center gap-4 md:gap-6">
-              <button className="text-on-surface-variant hover:text-primary transition-colors relative">
-                <span className="material-symbols-outlined">notifications</span>
+            <div className="flex items-center gap-2 md:gap-4 ml-2">
+              <button className="text-[var(--dash-text-muted)] hover:text-[var(--dash-accent)] transition-colors p-2 relative">
+                <span className="material-symbols-outlined !text-[22px]">notifications</span>
+                <span className="absolute top-2 right-2 w-2 h-2 bg-[var(--dash-accent)] rounded-full border-2 border-[var(--dash-bg-surface)]"></span>
               </button>
-              <button className="text-on-surface-variant hover:text-primary transition-colors">
-                <span className="material-symbols-outlined">account_circle</span>
-              </button>
-              <button 
-                onClick={() => { setActiveTab('products'); setIsMobileMenuOpen(false); }}
-                className="hidden md:flex bg-primary text-theme-text-inverse font-body font-semibold normal-case tracking-normal text-sm py-2 px-5 rounded-md hover:bg-primary/90 transition-colors shadow-sm items-center gap-2"
-              >
-                <span className="material-symbols-outlined text-[18px] text-theme-text-inverse">add</span>
-                Add Product
-              </button>
+              
+              <div className="flex items-center gap-3">
+                <div className="hidden md:flex flex-col items-end leading-none">
+                   <span className="dash-font-body font-medium text-[var(--dash-text-primary)]">{user?.name}</span>
+                   <span className="dash-font-card-title text-[var(--dash-text-muted)] uppercase tracking-wider mt-0.5">Administrator</span>
+                </div>
+                <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]">
+                  <span className="material-symbols-outlined !text-[24px]">account_circle</span>
+                </div>
+              </div>
             </div>
           </div>
         </header>
 
-        {children}
+        <div className="p-[var(--dash-pad-lg)] md:p-[var(--dash-pad-xl)] flex-1 max-w-[1440px] w-full mx-auto">
+          {children}
+        </div>
 
       </main>
     </div>

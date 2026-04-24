@@ -128,20 +128,63 @@
     --theme-overlay: rgba(0, 0, 0, 0.3);
     --theme-overlay-strong: rgba(0, 0, 0, 0.5);
 
+    /* DASHBOARD SYSTEM - DARK (DEFAULT) */
+    --dash-bg-page: #0b0b0b;
+    --dash-bg-surface: #141615;
+    --dash-border-subtle: rgba(255, 255, 255, 0.08);
+    --dash-text-primary: #ffffff;
+    --dash-text-muted: rgba(255, 255, 255, 0.6);
+    --dash-accent: #FFA500;
+    --dash-accent-muted: rgba(255, 165, 0, 0.1);
+    --dash-accent-hover: #FFB732;
+
+    --dash-space-4: 2.8px;
+    --dash-space-8: 5.6px;
+    --dash-space-12: 8.4px;
+    --dash-space-16: 11.2px;
+    --dash-space-24: 16.8px;
+    --dash-space-32: 22.4px;
+    --dash-space-48: 33.6px;
+    --dash-space-64: 44.8px;
+
+    /* Dashboard Simplified Typography System - Recalibrated for refined density (-15%) */
+    --dash-font-brand: clamp(14px, 1.2vw, 18px);
+    --dash-font-page-title: clamp(27px, 3vw, 42px);
+    --dash-font-section-title: clamp(18px, 2vw, 25px);
+    --dash-font-card-title: clamp(10px, 0.9vw, 12px);
+    --dash-font-body: clamp(13px, 1vw, 15px);
+    --dash-font-action: clamp(14px, 1vw, 16px);
+
+    /* Dashboard Specific Spacing & Margins - Further reduced for density */
+    --dash-pad-sm: 0.3rem;     /* tightened from 0.35rem */
+    --dash-pad-md: 0.6rem;      /* tightened from 0.7rem   */
+    --dash-pad-lg: 0.9rem;     /* tightened from 1.05rem */
+    --dash-pad-xl: 1.2rem;      /* tightened from 1.4rem   */
+    
+    --dash-marg-sm: 0.35rem;    /* was 0.5rem */
+    --dash-marg-md: 0.7rem;     /* was 1rem   */
+    --dash-marg-lg: 1.05rem;    /* was 1.5rem */
+    --dash-marg-xl: 1.4rem;     /* was 2rem   */
+    --dash-marg-2xl: 2.1rem;    /* was 3rem   */
+
+    --dash-gap-sm: 0.35rem;
+    --dash-gap-md: 0.7rem;
+    --dash-gap-lg: 1.05rem;
+
     /* ARDIS Fluid Spacing Scale (Luxury Adaptation) */
-    --space-8: clamp(6px, 0.5vw, 10px);
-    --space-12: clamp(10px, 0.8vw, 14px);
-    --space-16: clamp(14px, 1.2vw, 20px);
-    --space-24: clamp(20px, 1.8vw, 32px);
-    --space-32: clamp(24px, 2.5vw, 48px);
-    --space-48: clamp(32px, 3.5vw, 72px);
-    --space-64: clamp(48px, 4.5vw, 96px);
-    --space-96: clamp(64px, 6.5vw, 144px);
-    --space-128: clamp(80px, 8vw, 192px);
+    --space-8: clamp(4.2px, 0.35vw, 7px);
+    --space-12: clamp(7px, 0.56vw, 9.8px);
+    --space-16: clamp(9.8px, 0.84vw, 14px);
+    --space-24: clamp(14px, 1.26vw, 22.4px);
+    --space-32: clamp(16.8px, 1.75vw, 33.6px);
+    --space-48: clamp(22.4px, 2.45vw, 50.4px);
+    --space-64: clamp(33.6px, 3.15vw, 67.2px);
+    --space-96: clamp(44.8px, 4.55vw, 100.8px);
+    --space-128: clamp(56px, 5.6vw, 134.4px);
 
     /* ARDIS Fluid Typographic Scale (Aggressive Luxury Adaptation) */
-    --text-h1: clamp(32px, 6.5vw, 96px);
-    --text-h2: clamp(24px, 4.5vw, 64px);
+    --text-h1: clamp(22.4px, 4.55vw, 67.2px);
+    --text-h2: clamp(16.8px, 3.15vw, 44.8px);
     --text-h3: clamp(20px, 3.5vw, 42px);
     --text-h4: clamp(18px, 2.5vw, 28px);
     --text-body: clamp(15px, 1.2vw, 20px);
@@ -181,13 +224,23 @@
     /* Very transparent overlays in light mode to keep pictures beautiful */
     --theme-overlay: rgba(255, 255, 255, 0.12);
     --theme-overlay-strong: rgba(255, 255, 255, 0.25);
+
+    /* DASHBOARD SYSTEM - LIGHT */
+    --dash-bg-page: #f8fafc;
+    --dash-bg-surface: #ffffff;
+    --dash-border-subtle: #e2e8f0;
+    --dash-text-primary: #0f172a;
+    --dash-text-muted: #64748b;
+    --dash-accent: #FFA500;
+    --dash-accent-muted: rgba(255, 165, 0, 0.05);
+    --dash-accent-hover: #FFB732;
   }
 }
 
 @layer base {
-  /* Global border policy: All border classes and interactive tags use 0.5px */
-  button, input, select, textarea, .border, .border-t, .border-b, .border-l, .border-r {
-    border-width: var(--theme-border-width) !important;
+  /* Global border policy: All border classes use 0.5px */
+  .border, .border-t, .border-b, .border-l, .border-r {
+    border-width: var(--theme-border-width);
     border-style: solid;
     border-color: var(--theme-border);
   }
@@ -411,7 +464,7 @@
 
 .masonry-grid {
   column-count: 1;
-  column-gap: 2.5rem;
+  column-gap: 1.75rem;
 }
 @media (min-width: 768px) {
   .masonry-grid {
@@ -425,7 +478,7 @@
 }
 .masonry-item {
   break-inside: avoid;
-  margin-bottom: 3.5rem;
+  margin-bottom: 2.45rem;
 }
 
 /* Custom scrollbar - completely hidden */
@@ -479,13 +532,13 @@
   border-width: 0 0 1px 0;
   border-color: #54524F;
   border-radius: 0;
-  padding: 1.5rem 0 0.5rem 0;
+  padding: 0.75rem 0 0.25rem 0;
   font-family: "Poppins", sans-serif;
   font-size: 1.5rem; /* 24px */
   line-height: 2rem;
   color: #EBE6DA;
   transition: border-color 0.3s ease;
-  width: 100%;
+  width: 50%;
 }
 
 .bespoke-input:focus {
@@ -500,7 +553,7 @@
 
 .input-group {
   position: relative;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .input-label {
@@ -523,3 +576,10 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+
+@utility dash-font-brand { font-size: var(--dash-font-brand); }
+@utility dash-font-page-title { font-size: var(--dash-font-page-title); }
+@utility dash-font-section-title { font-size: var(--dash-font-section-title); }
+@utility dash-font-card-title { font-size: var(--dash-font-card-title); }
+@utility dash-font-body { font-size: var(--dash-font-body); }
+@utility dash-font-action { font-size: var(--dash-font-action); }
