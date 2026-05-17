@@ -68,7 +68,7 @@ export const AdminLayout = ({ children, activeTab, setActiveTab, searchQuery, se
           })}
         </ul>
 
-        <div className="mt-auto mb-4 px-6 border-t border-[var(--dash-border-subtle)] pt-4">
+        <div className="mt-auto mb-4 px-6 pt-4">
           <ul className="flex flex-col gap-1">
             <li>
                <button className="w-full text-left text-[var(--dash-text-muted)] py-2 flex items-center gap-4 hover:text-[var(--dash-text-primary)] transition-all duration-200 group">

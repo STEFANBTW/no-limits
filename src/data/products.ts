@@ -81,7 +81,7 @@ export const products: Product[] = [
       'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&q=80&w=800'
     ],
-    model3d: '/assets/3d/ottoman.glb'
+    model3d: 'https://res.cloudinary.com/dwo7oemds/image/upload/v1777108010/ottoman_ecbala.glb'
   },
   {
     id: '5',

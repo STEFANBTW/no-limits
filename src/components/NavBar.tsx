@@ -14,6 +14,7 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
   const location = useLocation();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isEstateOpen, setIsEstateOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
   const { itemCount, setIsCartOpen } = useCart();
   const hasCart = itemCount > 0;
   const { user } = useAuth();
@@ -21,6 +22,22 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
   const [isLightMode, setIsLightMode] = useState(() => {
     return document.documentElement.classList.contains('light-theme');
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      const desktop = window.innerWidth >= 768;
+      setIsDesktop(desktop);
+      if (desktop) {
+        setIsMobileOpen(false);
+      }
+    };
+    
+    // Initial check
+    handleResize();
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -65,30 +82,22 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
   const isActive = (path: string) => location.pathname === path;
   const isEstateActive = curatedItems.some(item => location.pathname === item.path);
 
-  // Close mobile menu on resize to desktop
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMobileOpen(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Close mobile menu on resize to desktop (Handled by the main effect above)
 
   return (
     <>
       {/* Mobile Top Bar implementation has been removed as per the "Humble Ground" specification. Instead, the trigger lives in the bottom-center dock. */}
       {/* Sidebar (Desktop & Mobile Drawer) */}
-      <AnimatePresence>
-        {(isMobileOpen || window.innerWidth >= 768) && (
-          <motion.aside 
-            initial={{ x: -300 }}
-            animate={{ x: 0 }}
-            exit={{ x: -300 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className={`fixed top-0 left-0 bottom-0 z-50 bg-theme-surface border-r border-theme-border flex flex-col transition-all duration-300 ${isCollapsed ? 'w-[80px]' : 'w-[240px]'} ${isMobileOpen ? 'w-[280px] translate-x-0' : '-translate-x-full md:translate-x-0'}`}
-          >
+      <motion.aside 
+        initial={isDesktop ? "visible" : "hidden"}
+        animate={(isMobileOpen || isDesktop) ? "visible" : "hidden"}
+        variants={{
+          visible: { x: 0 },
+          hidden: { x: -300 }
+        }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed top-0 left-0 bottom-0 z-50 bg-theme-surface border-r border-theme-border flex flex-col transition-[width] duration-300 ${isCollapsed && !isMobileOpen ? 'w-[80px]' : 'w-[240px]'} ${isMobileOpen ? 'w-[280px] shadow-2xl' : ''}`}
+      >
             {/* Collapse Toggle Button (Desktop Only) */}
             <button 
               onClick={() => setIsCollapsed(!isCollapsed)}
@@ -283,8 +292,6 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
               </Link>
             </div>
           </motion.aside>
-        )}
-      </AnimatePresence>
       
       {/* Mobile Overlay Background */}
       <AnimatePresence>

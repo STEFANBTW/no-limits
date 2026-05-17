@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -138,6 +138,36 @@
     --dash-accent-muted: rgba(255, 165, 0, 0.1);
     --dash-accent-hover: #FFB732;
 
+    /* Mood Variables */
+    --dash-font-serif-theme: "Poppins", serif;
+    --dash-font-sans-theme: "Lato", sans-serif;
+    --dash-font-mono-theme: "Courier New", monospace;
+  }
+
+  .mood-satin-night {
+    --dash-bg-page: #050505;
+    --dash-bg-surface: #0a0a0a;
+    --dash-text-primary: #f8f1e7;
+    --dash-text-muted: rgba(248, 241, 231, 0.6);
+    --dash-accent: #d4af37; /* Gold */
+    --dash-accent-muted: rgba(212, 175, 55, 0.1);
+    --dash-font-serif-theme: "Playfair Display", serif;
+    --dash-border-subtle: rgba(212, 175, 55, 0.2);
+  }
+
+  .mood-brutalist-raw {
+    --dash-bg-page: #111111;
+    --dash-bg-surface: #111111;
+    --dash-text-primary: #ffffff;
+    --dash-text-muted: #888888;
+    --dash-accent: #ffffff;
+    --dash-accent-muted: rgba(255, 255, 255, 0.05);
+    --dash-font-serif-theme: "Space Grotesk", sans-serif;
+    --dash-font-sans-theme: "Space Grotesk", sans-serif;
+    --dash-border-subtle: #333333;
+  }
+
+  :root {
     --dash-space-4: 2.8px;
     --dash-space-8: 5.6px;
     --dash-space-12: 8.4px;
@@ -409,6 +439,7 @@
     font-family: var(--font-ui);
     font-size: 16px;
     line-height: 1.6;
+    overflow-x: clip;
   }
 
   /* ATIS Typographic Scale & Spacing Consumed Globally */

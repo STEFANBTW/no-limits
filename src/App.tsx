@@ -7,6 +7,7 @@ import { OrderProvider } from './context/OrderContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { ProductProvider } from './context/ProductContext';
 import { CollectionProvider } from './context/CollectionContext';
+import { DashboardProvider } from './context/DashboardContext';
 
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -74,10 +75,12 @@ export default function App() {
           <CartProvider>
             <OrderProvider>
               <WishlistProvider>
-                <Router>
-                  <ScrollToTop />
-                  <AnimatedRoutes />
-                </Router>
+                <DashboardProvider>
+                  <Router>
+                    <ScrollToTop />
+                    <AnimatedRoutes />
+                  </Router>
+                </DashboardProvider>
               </WishlistProvider>
             </OrderProvider>
           </CartProvider>

@@ -7,7 +7,7 @@ export interface Order {
   userName: string;
   items: CartItem[];
   total: number;
-  status: 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+  status: 'Hand-crafting in progress' | 'Quality certification' | 'White-glove transit' | 'Delivered' | 'Processing' | 'Cancelled';
   date: string;
   paymentMethod: string;
 }
@@ -40,7 +40,7 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
       ...orderData,
       id: `ORD-${Math.floor(Math.random() * 100000)}`,
       date: new Date().toISOString(),
-      status: 'Processing',
+      status: 'Hand-crafting in progress',
     };
     setOrders((prev) => [newOrder, ...prev]);
   };

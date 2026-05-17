@@ -8,19 +8,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Layout = () => {
   const location = useLocation();
-  const element = useOutlet(); // Snapshot the routing context for exit animations
+  const element = useOutlet();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
 
   useEffect(() => {
-    // Set a global CSS variable for sidebar width to help with fixed positioning in other pages
-    const updateWidth = () => {
-      const width = window.innerWidth >= 768 ? (isCollapsed ? '80px' : '240px') : '0px';
+    const handleResize = () => {
+      const desktop = window.innerWidth >= 768;
+      setIsDesktop(desktop);
+      
+      const width = desktop ? (isCollapsed ? '80px' : '240px') : '0px';
       document.documentElement.style.setProperty('--sidebar-width', width);
     };
     
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => window.removeEventListener('resize', updateWidth);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [isCollapsed]);
 
   return (
@@ -29,7 +32,11 @@ const Layout = () => {
       <NavBar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
 
       {/* Main Content Area */}
-      <main className={`relative flex flex-col transition-all duration-300 ${isCollapsed ? 'md:ml-[80px]' : 'md:ml-[240px]'} min-h-screen bg-theme-base`}>
+      <main 
+        className={`relative flex flex-col transition-all duration-300 ${
+          isDesktop ? (isCollapsed ? 'ml-[80px]' : 'ml-[240px]') : 'ml-0'
+        } min-h-screen bg-theme-base`}
+      >
         <div className="flex-1">
           <AnimatePresence mode="wait" initial={true}>
             <motion.div

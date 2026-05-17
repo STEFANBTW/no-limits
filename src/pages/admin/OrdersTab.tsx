@@ -98,9 +98,11 @@ export const OrdersTab = ({ searchQuery = '' }: { searchQuery?: string }) => {
                   onChange={(e) => handleStatusChange(selectedOrder.id, e.target.value as Order['status'])}
                   className="h-10 bg-[var(--dash-bg-surface)] border border-[var(--dash-border-subtle)] px-4 dash-font-card-title font-bold uppercase tracking-widest outline-none focus:border-[var(--dash-accent)] text-[var(--dash-text-primary)]"
                 >
-                  <option value="Processing">Processing</option>
-                  <option value="Shipped">Shipped</option>
+                  <option value="Hand-crafting in progress">Hand-crafting in progress</option>
+                  <option value="Quality certification">Quality certification</option>
+                  <option value="White-glove transit">White-glove transit</option>
                   <option value="Delivered">Delivered</option>
+                  <option value="Processing">Processing</option>
                   <option value="Cancelled">Cancelled</option>
                 </select>
               </div>

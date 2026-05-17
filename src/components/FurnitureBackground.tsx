@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useMemo, useState } from 'react';
 import { motion, useTransform, MotionValue, useMotionValue, useSpring, animate } from 'framer-motion';
-import { Armchair, Sofa, Lamp, Table2, Bed, Library, Boxes, Coffee, Monitor, DoorOpen, Construction, Bath, Key, Tv, Fan, Heater, Utensils, RockingChair, Warehouse } from 'lucide-react';
+import { Armchair, Sofa, Lamp, Table2, Bed, Library, Coffee, DoorOpen, RockingChair, Flower2, Layers } from 'lucide-react';
 
 const FurnitureIcon = ({ Icon, x, y, rotate, mouseX, mouseY, movementIntensity }: { Icon: any, x: number, y: number, rotate: number, mouseX: MotionValue<number>, mouseY: MotionValue<number>, movementIntensity: MotionValue<number>, key?: React.Key }) => {
   const iconRef = useRef<HTMLDivElement>(null);
@@ -18,24 +18,21 @@ const FurnitureIcon = ({ Icon, x, y, rotate, mouseX, mouseY, movementIntensity }
       const dy = mouseY.get() - centerY;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      // Explicit Mobile (150px) vs Desktop (250px) threshold radii
-      const threshold = window.innerWidth < 768 ? 150 : 250; 
-      const targetVal = Math.max(0, 1 - distance / threshold);
+      // Softer threshold for more fluid spreading
+      const threshold = window.innerWidth < 768 ? 200 : 350; 
+      const targetVal = Math.pow(Math.max(0, 1 - distance / threshold), 2); // Squared for more concentrated center, softer edges
       
-      // Asymmetric Constant-Velocity Animation Logic
       const currentVal = proximity.get();
-      const delta = Math.abs(targetVal - currentVal);
-      
-      if (delta < 0.001) return; // Save math cycles
+      if (Math.abs(targetVal - currentVal) < 0.001) return;
       
       const isAppearing = targetVal > currentVal;
-      // Snappy intake (0.2s), extremely fluid and slow decay (3.0s)
-      const baseDuration = isAppearing ? 0.2 : 3.0; 
+      // Faster decay but with a much smoother curve to feel like a wave passing
+      const baseDuration = isAppearing ? 0.4 : 1.2; 
       
       if (animRef.current) animRef.current.stop();
       animRef.current = animate(proximity, targetVal, {
-        duration: Math.max(0.01, baseDuration * delta),
-        ease: isAppearing ? "circOut" : "easeInOut"
+        duration: Math.max(0.1, baseDuration * (isAppearing ? 1 : 0.8)),
+        ease: isAppearing ? "easeOut" : "easeInOut"
       });
     };
 
@@ -52,33 +49,26 @@ const FurnitureIcon = ({ Icon, x, y, rotate, mouseX, mouseY, movementIntensity }
     ([p, m]) => (p as number) * (m as number)
   );
 
-  // Match the exact accent color
-  // Base opacity: 0.5 (as requested) but in a "difficult to see color" (dark gray)
-  const color = useTransform(activeLevel, [0, 1], ["var(--theme-panel-furniture, #1a1a1a)", "var(--color-primary, #E8A843)"]);
-  const opacity = useTransform(activeLevel, [0, 1], [0.5, 0.9]); 
-  const scale = useTransform(activeLevel, [0, 1], [1, 1.35]); 
-  const glowOpacity = useTransform(activeLevel, [0.4, 1], [0, 0.4]); 
+  const color = useTransform(activeLevel, [0, 1], ["var(--theme-panel-furniture, #1a1a1a)", "#E8A843"]);
+  const opacity = useTransform(activeLevel, [0, 1], [0.2, 0.7]); 
+  const scale = useTransform(activeLevel, [0, 1], [0.85, 1.15]); 
+  const blur = useTransform(activeLevel, [0, 0.4, 1], [3, 1, 0]); 
 
   return (
     <motion.div
       ref={iconRef}
-      className="absolute pointer-events-none z-0"
-      style={{ left: `${x}%`, top: `${y}%`, rotate, scale, opacity }}
+      className="absolute pointer-events-none z-0 p-2 border border-theme-border/10 rounded-[2px]"
+      style={{ left: `${x}%`, top: `${y}%`, rotate, scale, opacity, filter: useTransform(blur, b => `blur(${b}px)`) }}
     >
       <div className="relative">
-         <motion.div style={{ color }} className="transition-colors duration-200">
+         <motion.div style={{ color }} className="transition-colors duration-400">
            <Icon 
-              className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 sharp-vector"
+              className="w-9 h-9 md:w-10 md:h-10 lg:w-11 lg:h-11" 
               strokeWidth={1} 
-              strokeLinecap="square"
-              strokeLinejoin="miter"
+              strokeLinecap="round"
+              strokeLinejoin="round"
            />
          </motion.div>
-         
-         <motion.div 
-            style={{ opacity: glowOpacity }}
-            className="absolute inset-0 bg-primary/20 rounded-none blur-3xl scale-150" 
-         />
       </div>
     </motion.div>
   );
@@ -94,29 +84,22 @@ export const FurnitureBackground = () => {
   useEffect(() => {
     const triggerIntensity = () => {
       const currentVal = movementIntensity.get();
-      const delta = 1 - currentVal;
-      
-      if (delta > 0.001) {
+      if (currentVal < 0.99) {
         if (globalAnimRef.current) globalAnimRef.current.stop();
         globalAnimRef.current = animate(movementIntensity, 1, { 
-          duration: 0.2 * delta, 
-          ease: "circOut" 
+          duration: 0.6, // Slower intensity build up for "richer" feel
+          ease: "easeOut" 
         });
       }
       
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      
-      // After 800ms of inactivity, fade out extremely slowly (5 seconds)
       timeoutRef.current = setTimeout(() => {
-        const cVal = movementIntensity.get();
-        if (cVal > 0.001) {
-          if (globalAnimRef.current) globalAnimRef.current.stop();
-          globalAnimRef.current = animate(movementIntensity, 0, { 
-            duration: 5.0 * cVal, 
-            ease: "easeInOut" 
-          });
-        }
-      }, 800); 
+        if (globalAnimRef.current) globalAnimRef.current.stop();
+        globalAnimRef.current = animate(movementIntensity, 0, { 
+          duration: 2.5, // Faster than 6s to not stay on too long
+          ease: "easeInOut" 
+        });
+      }, 150); 
     };
 
     const handleInputMove = (x: number, y: number) => {
@@ -125,14 +108,9 @@ export const FurnitureBackground = () => {
       triggerIntensity();
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      handleInputMove(e.clientX, e.clientY);
-    };
-
+    const handleMouseMove = (e: MouseEvent) => handleInputMove(e.clientX, e.clientY);
     const handleTouchUpdate = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        handleInputMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
+      if (e.touches.length > 0) handleInputMove(e.touches[0].clientX, e.touches[0].clientY);
     };
     
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
@@ -148,9 +126,8 @@ export const FurnitureBackground = () => {
   }, [mouseX, mouseY, movementIntensity]);
 
   const furnitureTypes = [
-    Armchair, Sofa, Lamp, Table2, Bed, Library, Boxes, 
-    Coffee, Monitor, DoorOpen, Construction, Bath, 
-    Key, Tv, Fan, Heater, Utensils, RockingChair, Warehouse
+    Armchair, Sofa, Lamp, Table2, Bed, Library, 
+    Coffee, DoorOpen, RockingChair, Flower2
   ];
   
   const generateGrid = () => {
@@ -161,28 +138,30 @@ export const FurnitureBackground = () => {
     const height = window.innerHeight;
     
     const isMobile = width < 768;
-    // Set 30px gap for mobile, 60px for desktop
-    const gap = isMobile ? 30 : 60;
-    // Icon sizes: w-8 is 32px, w-12 is 48px
-    const iconSize = isMobile ? 32 : 48;
+    const gap = isMobile ? 30 : 60; // Reduced gap
+    const iconSize = isMobile ? 31 : 40; // Increased size by 10%
     const cellSize = iconSize + gap;
     
-    // Add extra row/col to prevent empty edges
-    const cols = Math.ceil(width / cellSize) + 1;
-    const rows = Math.ceil(height / cellSize) + 1;
+    const cols = Math.ceil(width / cellSize) + 2;
+    const rows = Math.ceil(height / cellSize) + 2;
     
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        // Distribute strictly to keep exact cell boundaries
-        // Convert to percentage for absolute positioning
-        const physicalX = c * cellSize + (Math.random() * 8 - 4);
-        const physicalY = r * cellSize + (Math.random() * 8 - 4);
+        // Brick layout: shift every other row
+        const rowShift = (r % 2 === 1) ? cellSize / 2 : 0;
+        
+        // Increased scatter
+        const scatterX = Math.random() * 40 - 20;
+        const scatterY = Math.random() * 40 - 20;
+        
+        const physicalX = c * cellSize + rowShift + scatterX;
+        const physicalY = r * cellSize + scatterY;
         
         const x = (physicalX / width) * 100;
         const y = (physicalY / height) * 100;
         
         const Icon = furnitureTypes[(r * cols + c) % furnitureTypes.length];
-        const rotate = Math.random() * 30 - 15; 
+        const rotate = Math.random() * 60 - 30; 
         
         items.push({ Icon, x, y, rotate, id: `${r}-${c}-${width}` });
       }

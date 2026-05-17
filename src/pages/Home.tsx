@@ -3,48 +3,50 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform, useInView, MotionValue, useMotionValue, useSpring } from 'framer-motion';
 import { useProduct } from '../context/ProductContext';
 import HomeFooterCTA from '../components/HomeFooterCTA';
-import { Armchair, Sofa, Lamp, Table2, Bed, Library, Boxes, Coffee, Monitor, DoorOpen, Construction, Bath, Key, Tv, Fan, Heater, Utensils, RockingChair, Warehouse } from 'lucide-react';
+import { Boxes } from 'lucide-react';
 
 const ScrollRevealText = ({ text, progress }: { text: string, progress: MotionValue<number> }) => {
   const words = text.split(" ");
+  const totalChars = text.replace(/\s+/g, '').length;
+  let charCount = 0;
+
   return (
-    <div className="font-sans text-[19px] sm:text-[26px] md:text-[34px] font-light leading-[1.4] text-center max-w-3xl mx-auto">
-      {words.map((word, i) => {
-        const start = i / words.length;
-        const end = start + (1 / words.length);
-        const isHighlight = word.toLowerCase().includes("artifacts");
-        return (
-          <React.Fragment key={i}>
-            <RevealedWord word={word} progress={progress} range={[start, end]} isHighlight={isHighlight} />
-            {i < words.length - 1 && " "}
-          </React.Fragment>
+    <div className="font-sans text-[24px] sm:text-[34px] md:text-[44px] font-light leading-[1.3] text-center max-w-6xl mx-auto flex flex-wrap justify-center items-center">
+      {words.map((word, wordIndex) => {
+        const wordChars = word.split("");
+        const wordElement = (
+          <span key={wordIndex} className="inline-block mx-[0.16em] whitespace-nowrap">
+            {wordChars.map((char, charIndex) => {
+              const start = charCount / (totalChars * 1.25);
+              const end = start + 0.15;
+              charCount++;
+              return (
+                <RevealedChar key={charIndex} char={char} progress={progress} range={[start, end]} />
+              );
+            })}
+          </span>
         );
+        return wordElement;
       })}
     </div>
   );
 };
 
-interface RevealedWordProps {
-  word: string;
-  progress: MotionValue<number>;
-  range: [number, number];
-  isHighlight?: boolean;
-  key?: React.Key;
-}
-
-const RevealedWord = ({ word, progress, range, isHighlight }: RevealedWordProps) => {
-  const opacity = useTransform(progress, range, [0.05, isHighlight ? 1 : 0.75]);
-  const color = isHighlight ? '#E8A843' : 'currentColor';
-  const italic = isHighlight ? 'italic font-serif' : '';
+const RevealedChar = ({ char, progress, range }: { char: string, progress: MotionValue<number>, range: [number, number] }) => {
+  const overlayOpacity = useTransform(progress, range, [0, 1]); 
   
   return (
-    <motion.span 
-      style={{ opacity }} 
-      className={`inline-block text-theme-text ${italic}`}
-      transition={{ duration: 0.5 }}
-    >
-      <span style={{ color: isHighlight ? color : undefined }}>{word}</span>
-    </motion.span>
+    <span className="relative inline-block whitespace-pre">
+      {/* Base character with low contrast */}
+      <span className="opacity-[0.18] text-theme-text">{char}</span>
+      {/* Animated high contrast character overlay */}
+      <motion.span 
+        style={{ opacity: overlayOpacity }} 
+        className="absolute left-0 top-0 text-theme-text"
+      >
+        {char}
+      </motion.span>
+    </span>
   );
 };
 
@@ -55,42 +57,55 @@ const PhilosophyStickySection = () => {
     offset: ["start start", "end end"]
   });
 
+  // Reveal starts after slightly sticking and finishes before unsticking
   const revealProgress = useTransform(scrollYProgress, [0.15, 0.85], [0, 1]);
-  const titleOpacity = useTransform(scrollYProgress, [0.02, 0.1], [0, 1]);
-  const buttonOpacity = useTransform(scrollYProgress, [0.9, 0.95], [0, 1]);
+  const titleOpacity = useTransform(scrollYProgress, [0.05, 0.12], [0, 1]);
+  const titleY = useTransform(scrollYProgress, [0.05, 0.12], [15, 0]);
+  const buttonOpacity = useTransform(scrollYProgress, [0.88, 0.96], [0, 1]);
+  const buttonY = useTransform(scrollYProgress, [0.88, 0.96], [15, 0]);
+  
+  // Transition to a higher-contrast background early on
+  const sectionBg = useTransform(scrollYProgress, [0, 0.25], ['var(--theme-panel)', 'var(--theme-base)']);
 
   return (
-    <section ref={containerRef} className="relative w-full bg-theme-panel h-[300vh] z-10 mt-[100svh]">
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-6 md:px-12 overflow-hidden bg-theme-panel transition-all duration-300">
-        <div className="max-w-4xl text-center flex flex-col items-center w-full mx-auto">
-          <motion.span style={{ opacity: titleOpacity }} className="text-primary font-sans tracking-[0.4em] uppercase text-[9px] md:text-[12px] font-bold mb-6 md:mb-10 block opacity-80">
-            The Philosophy
-          </motion.span>
+    <section ref={containerRef} className="relative w-full h-[500vh] z-10 mt-[100vh]">
+      <motion.div 
+        style={{ backgroundColor: sectionBg }}
+        className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-6 md:px-12 overflow-hidden"
+      >
+        <div className="max-w-7xl text-center flex flex-col items-center w-full mx-auto">
+          <motion.div style={{ opacity: titleOpacity, y: titleY }} className="mb-8 md:mb-12">
+            <span className="text-primary font-sans tracking-[0.6em] uppercase text-[10px] md:text-[12px] font-bold block">
+              The Philosophy
+            </span>
+            <div className="h-[1px] w-12 bg-primary mx-auto mt-4 opacity-60"></div>
+          </motion.div>
           
-          <div className="mb-12 w-full flex justify-center">
-            <div className="font-sans text-[22px] sm:text-[30px] md:text-[38px] font-light leading-[1.6] text-center w-full max-w-2xl px-4">
-              <ScrollRevealText 
-                text="We manufacture what others import. Our artifacts are designed to age as gracefully as the trees from which they came." 
-                progress={revealProgress} 
-              />
-            </div>
+          <div className="mb-8 md:mb-12 w-full flex justify-center">
+            <ScrollRevealText 
+              text="We manufacture what others import. Our artifacts are designed to age as gracefully as the trees from which they came." 
+              progress={revealProgress} 
+            />
           </div>
 
-          <motion.div style={{ opacity: buttonOpacity }} className="flex justify-center mt-8 w-full sm:w-auto pb-12 md:pb-0">
-            <Link to="/archive" className="group relative w-full sm:w-auto px-10 py-5 bg-transparent border border-theme-border text-theme-text overflow-hidden transition-all">
-              <div className="absolute inset-0 bg-theme-text -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-              <span className="relative z-10 font-sans text-[11px] font-bold tracking-[0.3em] uppercase group-hover:text-theme-base transition-colors duration-500">Read the Journal</span>
+          <motion.div style={{ opacity: buttonOpacity, y: buttonY }} className="flex justify-center mt-8 w-full sm:w-auto">
+            <Link to="/archive" className="group relative w-full sm:w-auto px-12 py-5 bg-transparent border border-theme-border text-theme-text overflow-hidden transition-all shadow-xl hover:shadow-primary/20">
+              <div className="absolute inset-0 bg-primary -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out" />
+              <span className="relative z-10 font-sans text-[11px] font-bold tracking-[0.4em] uppercase group-hover:text-black transition-colors duration-500">Read the Journal</span>
             </Link>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
 
 const HeroSection = () => {
   const { scrollY } = useScroll();
-  const textOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  // Fade out hero text as we approach the philosophy section
+  const textOpacity = useTransform(scrollY, [0, 800], [1, 0]);
+  const textY = useTransform(scrollY, [0, 800], [0, -100]);
+  const bgScale = useTransform(scrollY, [0, 1000], [1.1, 1.25]);
 
   return (
     <div className="fixed top-0 left-0 h-[100dvh] w-full z-0 pointer-events-none transition-all duration-300" style={{ paddingLeft: 'var(--sidebar-width)' }}>
@@ -98,12 +113,14 @@ const HeroSection = () => {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-theme-overlay z-10"></div>
           <motion.div 
-            initial={{ scale: 1.15 }}
             className="h-full w-full bg-cover bg-center" 
-            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2000')" }}
+            style={{ 
+              backgroundImage: "url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2000')",
+              scale: bgScale as any
+            }}
           ></motion.div>
         </div>
-        <motion.div style={{ opacity: textOpacity }} className="relative z-20 flex flex-1 w-full flex-col items-center justify-center text-center">
+        <motion.div style={{ opacity: textOpacity, y: textY }} className="relative z-20 flex flex-1 w-full flex-col items-center justify-center text-center">
           <div className="max-w-5xl mx-auto w-full flex flex-col items-center px-4 sm:px-6 -translate-x-1 md:translate-x-0">
             <motion.p 
               initial={{ y: 20, opacity: 0 }}
@@ -221,7 +238,7 @@ const Home = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="relative flex min-h-screen w-full flex-col bg-theme-base text-theme-text font-sans selection:bg-primary/30 selection:text-theme-text overflow-clip antialiased"
+      className="relative flex min-h-screen w-full flex-col bg-theme-base text-theme-text font-sans selection:bg-primary/30 selection:text-theme-text antialiased"
     >
       {/* Act I: The Vision (Hero) */}
       <HeroSection />

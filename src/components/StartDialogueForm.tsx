@@ -22,7 +22,7 @@ const spaces = [
   { value: "outdoor", label: "EN PLEIN AIR" },
 ];
 
-const StartDialogueForm = () => {
+const StartDialogueForm = ({ isDashboard }: { isDashboard?: boolean }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [interest, setInterest] = useState('');
   const [isSelectOpen, setIsSelectOpen] = useState(false);
@@ -52,12 +52,14 @@ const StartDialogueForm = () => {
   };
 
   return (
-    <section className="py-12 px-5 md:px-6 relative overflow-hidden flex flex-col justify-center items-center w-full min-h-[100dvh] bg-transparent">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] bg-primary/5 blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
+    <section className={`${isDashboard ? 'py-8' : 'py-12 min-h-[100dvh]'} relative overflow-hidden flex flex-col justify-center items-center w-full bg-transparent`}>
+      {!isDashboard && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] bg-primary/5 blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
+      )}
       
-      <FurnitureBackground />
+      {!isDashboard && <FurnitureBackground />}
 
-      <div className="max-w-3xl w-full relative z-10 flex flex-col justify-center flex-grow">
+      <div className={`${isDashboard ? 'max-w-full' : 'max-w-3xl'} w-full relative z-10 flex flex-col justify-center flex-grow`}>
         <AnimatePresence mode="wait">
           {!isSubmitted ? (
             <motion.div
@@ -65,13 +67,15 @@ const StartDialogueForm = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.05 }}
-              className="p-4 md:p-8 lg:p-12 md:bg-theme-surface md:border md:border-theme-border md:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.4),0_0_1px_rgba(255,255,255,0.05)] bg-transparent border-none shadow-none w-full min-h-[90vh] max-h-[95vh] flex flex-col justify-center overflow-y-auto"
+              className={`${isDashboard ? 'p-0 shadow-none border-none bg-transparent' : 'p-4 md:p-8 lg:p-12 md:bg-theme-surface md:border md:border-theme-border md:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.4),0_0_1px_rgba(255,255,255,0.05)] bg-transparent border-none shadow-none min-h-[90vh] max-h-[95vh]'} w-full flex flex-col justify-center overflow-y-auto`}
             >
-              <div className="text-center mb-6 md:mb-10">
-                <span className="text-primary font-sans tracking-[0.3em] uppercase text-[10px] md:text-xs mb-1 md:mb-4 block">Inquiry</span>
-                <h2 className="font-serif text-3xl md:text-4xl mb-1 md:mb-3">Start a Dialogue</h2>
-                <p className="text-theme-text-muted text-sm md:text-base font-light">Tell us about the space you wish to transform.</p>
-              </div>
+              {!isDashboard && (
+                <div className="text-center mb-6 md:mb-10">
+                  <span className="text-primary font-sans tracking-[0.3em] uppercase text-[10px] md:text-xs mb-1 md:mb-4 block">Inquiry</span>
+                  <h2 className="font-serif text-3xl md:text-4xl mb-1 md:mb-3">Start a Dialogue</h2>
+                  <p className="text-theme-text-muted text-sm md:text-base font-light">Tell us about the space you wish to transform.</p>
+                </div>
+              )}
 
               <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -79,10 +83,10 @@ const StartDialogueForm = () => {
                     <input 
                       type="text" 
                       required
-                      className="w-full bg-transparent border-b border-theme-border py-2 md:py-3 px-2 md:px-4 text-theme-text focus:outline-none focus:border-primary transition-all duration-500 peer placeholder-transparent"
+                      className="w-full bg-transparent border-b border-theme-border py-2 md:py-3 px-2 md:px-4 text-theme-text focus:outline-none focus:border-[#E8A843] transition-all duration-500 peer placeholder-transparent"
                       placeholder="Name"
                     />
-                    <label className="absolute left-2 md:left-4 -top-4 text-[0.6rem] font-sans tracking-[0.2em] uppercase text-stone-700 dark:text-stone-300 transition-all duration-500 peer-focus:text-primary pointer-events-none">
+                    <label className="absolute left-2 md:left-4 -top-4 text-[0.6rem] font-sans tracking-[0.2em] uppercase text-stone-700 dark:text-stone-300 transition-all duration-500 peer-focus:text-[#E8A843] pointer-events-none">
                       Full Name
                     </label>
                   </div>
@@ -90,10 +94,10 @@ const StartDialogueForm = () => {
                     <input 
                       type="email" 
                       required
-                      className="w-full bg-transparent border-b border-theme-border py-2 md:py-3 px-2 md:px-4 text-theme-text focus:outline-none focus:border-primary transition-all duration-500 peer placeholder-transparent"
+                      className="w-full bg-transparent border-b border-theme-border py-2 md:py-3 px-2 md:px-4 text-theme-text focus:outline-none focus:border-[#E8A843] transition-all duration-500 peer placeholder-transparent"
                       placeholder="Email"
                     />
-                    <label className="absolute left-2 md:left-4 -top-4 text-[0.6rem] font-sans tracking-[0.2em] uppercase text-stone-700 dark:text-stone-300 transition-all duration-500 peer-focus:text-primary pointer-events-none">
+                    <label className="absolute left-2 md:left-4 -top-4 text-[0.6rem] font-sans tracking-[0.2em] uppercase text-stone-700 dark:text-stone-300 transition-all duration-500 peer-focus:text-[#E8A843] pointer-events-none">
                       Email Address
                     </label>
                   </div>
@@ -102,15 +106,15 @@ const StartDialogueForm = () => {
                 <div className="relative group" ref={selectRef}>
                   <div 
                     onClick={() => setIsSelectOpen(!isSelectOpen)}
-                    className={`w-full bg-transparent border-b py-3 md:py-4 px-2 md:px-4 text-theme-text cursor-pointer flex items-center justify-between group transition-all duration-500 ${isSelectOpen ? 'border-primary' : 'border-theme-border'}`}
+                    className={`w-full bg-transparent border-b py-3 md:py-4 px-2 md:px-4 text-theme-text cursor-pointer flex items-center justify-between group transition-all duration-500 ${isSelectOpen ? 'border-[#E8A843]' : 'border-theme-border'}`}
                   >
                     <span className={`text-[13px] ${!interest ? 'text-stone-700 dark:text-stone-300 font-light' : 'text-theme-text'}`}>
                       {interest ? interests.find(i => i.value === interest)?.label : "Select Interest"}
                     </span>
                     <div className={`transition-transform duration-300 ${isSelectOpen ? 'rotate-180' : ''}`}>
-                      <ChevronDown className="w-4 h-4 text-primary" />
+                      <ChevronDown className="w-4 h-4 text-[#E8A843]" />
                     </div>
-                    <label className={`absolute left-2 md:left-4 -top-4 text-[0.6rem] transition-all duration-500 pointer-events-none uppercase tracking-[0.2em] font-sans ${isSelectOpen ? 'text-primary' : 'text-stone-700 dark:text-stone-300'}`}>
+                    <label className={`absolute left-2 md:left-4 -top-4 text-[0.6rem] transition-all duration-500 pointer-events-none uppercase tracking-[0.2em] font-sans ${isSelectOpen ? 'text-[#E8A843]' : 'text-stone-700 dark:text-stone-300'}`}>
                       Primary Interest
                     </label>
                   </div>
@@ -153,15 +157,15 @@ const StartDialogueForm = () => {
                   >
                     <div 
                       onClick={() => setIsSpaceSelectOpen(!isSpaceSelectOpen)}
-                      className={`w-full bg-transparent border-b py-3 md:py-4 px-2 md:px-4 text-theme-text cursor-pointer flex items-center justify-between group transition-all duration-500 ${isSpaceSelectOpen ? 'border-primary' : 'border-theme-border'}`}
+                      className={`w-full bg-transparent border-b py-3 md:py-4 px-2 md:px-4 text-theme-text cursor-pointer flex items-center justify-between group transition-all duration-500 ${isSpaceSelectOpen ? 'border-[#E8A843]' : 'border-theme-border'}`}
                     >
                       <span className={`text-[13px] ${!space ? 'text-stone-700 dark:text-stone-300 font-light' : 'text-theme-text'}`}>
                         {space ? spaces.find(i => i.value === space)?.label : "Select Curated Space"}
                       </span>
                       <div className={`transition-transform duration-300 ${isSpaceSelectOpen ? 'rotate-180' : ''}`}>
-                        <ChevronDown className="w-4 h-4 text-primary" />
+                        <ChevronDown className="w-4 h-4 text-[#E8A843]" />
                       </div>
-                      <label className={`absolute left-2 md:left-4 -top-4 text-[0.6rem] transition-all duration-500 pointer-events-none uppercase tracking-[0.2em] font-sans ${isSpaceSelectOpen ? 'text-primary' : 'text-stone-700 dark:text-stone-300'}`}>
+                      <label className={`absolute left-2 md:left-4 -top-4 text-[0.6rem] transition-all duration-500 pointer-events-none uppercase tracking-[0.2em] font-sans ${isSpaceSelectOpen ? 'text-[#E8A843]' : 'text-stone-700 dark:text-stone-300'}`}>
                         Secondary Interest (Space)
                       </label>
                     </div>
@@ -200,10 +204,10 @@ const StartDialogueForm = () => {
                   <textarea 
                     required
                     rows={3}
-                    className="w-full bg-transparent border-b border-theme-border py-2 md:py-3 px-2 md:px-4 text-theme-text focus:outline-none focus:border-primary transition-all duration-500 peer placeholder-transparent resize-none"
+                    className="w-full bg-transparent border-b border-theme-border py-2 md:py-3 px-2 md:px-4 text-theme-text focus:outline-none focus:border-[#E8A843] transition-all duration-500 peer placeholder-transparent resize-none"
                     placeholder="Message"
                   />
-                  <label className="absolute left-2 md:left-4 -top-4 text-[0.6rem] font-sans tracking-[0.2em] uppercase text-stone-700 dark:text-stone-300 transition-all duration-500 peer-focus:text-primary pointer-events-none">
+                  <label className="absolute left-2 md:left-4 -top-4 text-[0.6rem] font-sans tracking-[0.2em] uppercase text-stone-700 dark:text-stone-300 transition-all duration-500 peer-focus:text-[#E8A843] pointer-events-none">
                     Your Vision
                   </label>
                 </div>
@@ -225,7 +229,7 @@ const StartDialogueForm = () => {
               animate={{ opacity: 1, y: 0 }}
               className="p-8 md:p-16 text-center md:bg-theme-surface md:border md:border-theme-border md:shadow-2xl bg-transparent border-none shadow-none"
             >
-              <div className="w-20 h-20 border border-primary rounded-full flex items-center justify-center mx-auto mb-8 text-primary">
+              <div className="w-20 h-20 border border-[#E8A843] rounded-full flex items-center justify-center mx-auto mb-8 text-[#E8A843]">
                 <Check className="w-10 h-10" />
               </div>
               <h2 className="font-serif text-4xl mb-4">Inquiry Received</h2>
@@ -234,7 +238,7 @@ const StartDialogueForm = () => {
               </p>
               <button 
                 onClick={() => setIsSubmitted(false)}
-                className="text-primary font-sans text-xs font-bold tracking-[0.2em] uppercase hover:underline"
+                className="text-[#E8A843] font-sans text-xs font-bold tracking-[0.2em] uppercase hover:underline"
               >
                 Send another inquiry
               </button>
