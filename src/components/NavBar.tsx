@@ -23,6 +23,19 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
     return document.documentElement.classList.contains('light-theme');
   });
 
+  const [is3DModalOpen, setIs3DModalOpen] = useState(() =>
+    document.body.classList.contains('is-3d-modal-open')
+  );
+
+  useEffect(() => {
+    const handle3DModalChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ isOpen: boolean }>;
+      setIs3DModalOpen(Boolean(customEvent.detail?.isOpen));
+    };
+    window.addEventListener('3d-modal-change', handle3DModalChange);
+    return () => window.removeEventListener('3d-modal-change', handle3DModalChange);
+  }, []);
+
   useEffect(() => {
     const handleResize = () => {
       const desktop = window.innerWidth >= 768;
@@ -310,23 +323,29 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
       <AnimatePresence>
         {!isMobileOpen && (
           <motion.div 
-            initial={{ y: 100, x: '-50%' }}
-            animate={{ y: 0, x: '-50%' }}
-            exit={{ y: 100, x: '-50%' }}
-            className="fixed bottom-6 left-1/2 z-[9990] md:hidden flex items-center gap-3"
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            className={`fixed z-[9990] md:hidden flex items-center gap-3 ${
+              is3DModalOpen
+                ? 'bottom-20 right-5'
+                : 'bottom-6 left-1/2 -translate-x-1/2'
+            }`}
           >
-            {/* Hamburger Menu */}
-            <motion.button 
-              layout
-              onClick={() => setIsMobileOpen(true)} 
-              className="w-[42px] h-[42px] rounded-full bg-theme-base border border-theme-border shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col items-center justify-center gap-[4px] hover:scale-105 transition-transform"
-              aria-label="Open menu"
-            >
-              <div className="w-4 h-[1.5px] bg-theme-text rounded-full" />
-              <div className="w-[12px] h-[1.5px] bg-theme-text rounded-full mr-1" />
-            </motion.button>
+            {/* Hamburger Menu - Hidden when 3D view is open */}
+            {!is3DModalOpen && (
+              <motion.button 
+                layout
+                onClick={() => setIsMobileOpen(true)} 
+                className="w-[42px] h-[42px] rounded-full bg-theme-base border border-theme-border shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col items-center justify-center gap-[4px] hover:scale-105 transition-transform"
+                aria-label="Open menu"
+              >
+                <div className="w-4 h-[1.5px] bg-theme-text rounded-full" />
+                <div className="w-[12px] h-[1.5px] bg-theme-text rounded-full mr-1" />
+              </motion.button>
+            )}
 
-            {/* Chat Trigger */}
+            {/* Chat Trigger - Always visible, tucked to bottom-right above 3D controls when 3D modal is open */}
             <motion.button
               layout
               onClick={() => window.dispatchEvent(new CustomEvent('open-chatbot'))}
@@ -344,8 +363,8 @@ const NavBar = ({ isCollapsed = false, setIsCollapsed = () => {} }: NavBarProps)
               <MessageSquare size={18} strokeWidth={1.5} className="text-primary" />
             </motion.button>
 
-            {/* Cart Trigger */}
-            {hasCart && (
+            {/* Cart Trigger - Hidden when 3D view is open */}
+            {hasCart && !is3DModalOpen && (
               <motion.button
                 layout
                 initial={{ scale: 0, opacity: 0 }}

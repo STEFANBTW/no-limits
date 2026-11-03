@@ -18,6 +18,9 @@ export interface Product {
   featured?: boolean;
   itemType?: 'Piece' | 'Collection';
   collectionName?: string;
+  estateSpace?: string;
+  subCollection?: string;
+  stock?: number;
 }
 
 export const products: Product[] = [

@@ -98,34 +98,14 @@ const ProductDetail = () => {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] bg-theme-panel flex flex-col"
           >
-            <div className="absolute top-4 md:top-8 left-4 md:left-12 z-[110]">
-              <h2 className="text-theme-text font-serif italic text-3xl">{product.name}</h2>
-            </div>
-            
-            <button 
-              onClick={() => setIs3DModalOpen(false)}
-              className="absolute top-4 md:top-8 right-4 md:right-12 z-[110] w-10 h-10 bg-theme-base/50 backdrop-blur-md border border-theme-border flex items-center justify-center hover:bg-primary hover:text-theme-text transition-all group"
-            >
-              <CloseIcon size={20} />
-            </button>
-
             <div className="flex-1 w-full relative">
-              <ModelViewer modelUrl={product.model3d} title="" />
-            </div>
-
-            <div className="absolute bottom-6 md:bottom-12 left-4 md:left-12 z-[110] flex flex-col gap-2">
-               <div className="flex items-center gap-2 text-theme-text-subtle group">
-                 <div className="w-8 h-8 rounded-full border border-theme-border flex items-center justify-center">
-                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:rotate-12 transition-transform"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-                 </div>
-                 <span className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase">Drag to Rotate</span>
-               </div>
-               <div className="flex items-center gap-2 text-theme-text-subtle group">
-                 <div className="w-8 h-8 rounded-full border border-theme-border flex items-center justify-center">
-                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:scale-110 transition-transform"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                 </div>
-                 <span className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase">Pinch to Zoom</span>
-               </div>
+              <ModelViewer 
+                modelUrl={product.model3d} 
+                title={product.name} 
+                product={product} 
+                isModal={true} 
+                onClose={() => setIs3DModalOpen(false)} 
+              />
             </div>
           </motion.div>
         )}
@@ -166,10 +146,17 @@ const ProductDetail = () => {
                         className="flex-[0_0_100%] min-w-0 h-full relative z-50 bg-theme-panel cursor-pointer group/threed overflow-hidden" 
                         onClick={() => setIs3DModalOpen(true)}
                       >
-                        {/* Persistent Prompt - Removed as requested */}
                         {/* Background Model Preview */}
-                        <div className="w-full h-full opacity-40 group-hover/threed:opacity-100 transition-all duration-700">
-                          <ModelViewer modelUrl={product.model3d} title="" />
+                        <div className="w-full h-full opacity-70 group-hover/threed:opacity-100 transition-all duration-700 pointer-events-none">
+                          <ModelViewer modelUrl={product.model3d} title={product.name} product={product} isModal={false} />
+                        </div>
+
+                        {/* Interactive Launch Badge */}
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover/threed:bg-transparent transition-colors">
+                          <div className="px-5 py-2.5 bg-black/75 backdrop-blur-md border border-white/20 text-white rounded-full flex items-center gap-2 group-hover/threed:border-primary group-hover/threed:text-primary transition-all shadow-xl">
+                            <span className="material-symbols-outlined text-sm">view_in_ar</span>
+                            <span className="text-[10px] font-mono uppercase tracking-widest font-bold">Launch 3D Atelier Scene</span>
+                          </div>
                         </div>
 
                         {/* Corner Accents */}

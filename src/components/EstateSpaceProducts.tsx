@@ -62,11 +62,9 @@ const EstateSpaceProducts: React.FC<EstateSpaceProductsProps> = ({
   const handleQuickAdd = (e: React.MouseEvent, product: any) => {
     e.preventDefault();
     e.stopPropagation();
-    const success = addToCart(product);
-    if (success) {
-      setAddedId(product.id);
-      setTimeout(() => setAddedId(null), 1800);
-    }
+    addToCart(product);
+    setAddedId(product.id);
+    setTimeout(() => setAddedId(null), 1800);
   };
 
   const handleToggleWishlist = (e: React.MouseEvent, product: any) => {
